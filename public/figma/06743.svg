@@ -1,0 +1,22 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="15.1624" height="21.9994" viewBox="0 0 15.1624 21.9994" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="05-Destellos-logo">
+<g id="Vector">
+<path d="M1.99402 9.30819L10.0306 2.00599Z" fill="black"/>
+<path d="M0.644761 7.81009C-0.166097 8.54685 -0.219342 9.81483 0.525835 10.6422C1.27101 11.4696 2.53243 11.543 3.34329 10.8063L1.99402 9.30819L0.644761 7.81009ZM11.3799 3.50409C12.1908 2.76733 12.244 1.49935 11.4988 0.67197C10.7536 -0.155408 9.49223 -0.228869 8.68137 0.50789L10.0306 2.00599L11.3799 3.50409ZM1.99402 9.30819L3.34329 10.8063L11.3799 3.50409L10.0306 2.00599L8.68137 0.50789L0.644761 7.81009L1.99402 9.30819Z" fill="url(#paint0_linear_0_9)"/>
+</g>
+<g id="Vector_2">
+<path d="M2.69038 17.2614L13.2096 15.6185Z" fill="black"/>
+<path d="M2.39598 15.2374C1.32993 15.4039 0.597534 16.445 0.760125 17.5628C0.922717 18.6807 1.91873 19.4519 2.98478 19.2854L2.69038 17.2614L2.39598 15.2374ZM13.504 17.6425C14.57 17.4761 15.3024 16.4349 15.1398 15.3171C14.9773 14.1993 13.9812 13.428 12.9152 13.5945L13.2096 15.6185L13.504 17.6425ZM2.69038 17.2614L2.98478 19.2854L13.504 17.6425L13.2096 15.6185L12.9152 13.5945L2.39598 15.2374L2.69038 17.2614Z" fill="url(#paint1_linear_0_9)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_9" x1="11.0728" y1="0.879162" x2="0.125358" y2="9.84575" gradientUnits="userSpaceOnUse">
+<stop offset="0.520146" stop-color="#F5B85B"/>
+<stop offset="1" stop-color="#8F6B35" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_9" x1="14.6657" y1="15.2537" x2="0.904657" y2="17.1467" gradientUnits="userSpaceOnUse">
+<stop offset="0.520146" stop-color="#F5B85B"/>
+<stop offset="1" stop-color="#8F6B35" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

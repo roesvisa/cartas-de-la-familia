@@ -4,7 +4,7 @@ Demo mobile-first con React, TypeScript, Vite y CSS Modules. Referencia visual: 
 
 ## Ejecutar
 
-Node.js 22.12+ y npm. Desde esta carpeta:
+Node.js 26.12.1 (versión verificada; disponible en `.nvmrc`) y npm. Desde esta carpeta:
 
 ```sh
 npm ci
@@ -25,9 +25,9 @@ No usar credenciales personales. La validación se realiza en memoria, no autent
 1. Ingresar desde bienvenida y completar el login de demostración.
 2. Inicio muestra 0/30 cartas y 3 sobres. Colección tiene su estado vacío.
 3. Abrir sobres, tocar el sobre y revelar sus tres cartas. Tocar la carta ampliada o pulsar Escape para continuar. El diálogo contiene el foco y lo devuelve a la carta.
-4. Ver el colección: el inventario ya contiene las cartas recibidas. Pueden aparecer duplicadas incluso en un mismo sobre; las copias no suman al progreso de únicas.
+4. Ver la colección: el inventario ya contiene las cartas recibidas. Pueden aparecer duplicadas incluso en un mismo sobre; las copias no suman al progreso de únicas.
 5. Buscar por nombre o filtrar Comunes, Raras y Especiales. El filtro Todas muestra los 30 espacios; los filtros de rareza muestran cartas obtenidas.
-6. Tocar una carta obtenida para ver su detalle. Volver al colección con la flecha.
+6. Tocar una carta obtenida para ver su detalle. Volver a la colección con la flecha.
 7. Ranking muestra usuarios ficticios ordenados por cartas únicas. Los usuarios sin cartas no figuran; empates por nombre.
 8. Abrir el siguiente sobre hasta agotar los tres. Inicio pasa por 3, 2, 1 y 0 sobres; el botón queda desactivado al agotarlos.
 
@@ -38,7 +38,7 @@ La apertura es de **un sobre y tres cartas** por operación. No se implementó a
 Todos requieren pasar por el login simulado:
 
 - `/?packs=0`, `/?packs=1`, `/?packs=2`, `/?packs=3`: sobres iniciales.
-- `/?demo=empty`: ranking sin coleccionistas y colección vacío, con tres sobres para comenzar. Abrir uno incorpora a Mariel al ranking.
+- `/?demo=empty`: ranking sin coleccionistas y colección vacía, con tres sobres para comenzar. Abrir uno incorpora a Mariel al ranking.
 - `/?demo=error`: error persistente del repositorio y botón Reintentar. Quitar el parámetro para recuperar el escenario normal.
 - Credenciales incorrectas: mensaje de error en login.
 - Buscar un nombre inexistente: estado sin resultados.
@@ -64,7 +64,7 @@ Para revisar en teléfono de la misma red: `npm run dev -- --host 0.0.0.0`, y ab
 - `src/ui/tokens.css`: colores, tipografía, radios y espaciado del Design System.
 - `src/main.tsx`: composición e inyección del repositorio y escenarios de prueba.
 
-Cada carta, sobre e inventario está vinculado a una colección. El colección tiene 30 espacios y tres cartas disponibles con identidades e ilustraciones distintas. Los 27 espacios restantes están reservados (`availableInPacks: false`) y no se sortean hasta incorporar su contenido. Cada copia se acumula en el mismo identificador; el colección muestra una carta con xN en la esquina inferior derecha. Reemplazar `imageUrl`, nombres y categorías en `fixtures.ts` para introducir el catálogo real.
+Cada carta, sobre e inventario está vinculado a una colección. La colección tiene 30 espacios y tres cartas disponibles con identidades e ilustraciones distintas. Los 27 espacios restantes están reservados (`availableInPacks: false`) y no se sortean hasta incorporar su contenido. Cada copia se acumula en el mismo identificador; la colección muestra una carta con xN en la esquina inferior derecha. Reemplazar `imageUrl`, nombres y categorías en `fixtures.ts` para introducir el catálogo real.
 
 ## Recursos visuales
 
@@ -78,7 +78,7 @@ Sin autenticación real, Supabase, base de datos, registro público, entregas di
 
 ## Revisión de esta entrega
 
-Compilación de producción y 39 pruebas aprobadas. Recorrido manual verificado a 390 × 844: login, apertura, tres revelaciones, ampliación y Escape, incorporación al colección, ranking vacío y paso al ranking con Mariel, e Inicio con dos sobres. Colección vacío revisado a 320 px sin desbordamiento horizontal. Sin errores de consola en la sesión revisada.
+Compilación de producción y 39 pruebas aprobadas. Recorrido manual verificado a 390 × 844: login, apertura, tres revelaciones, ampliación y Escape, incorporación a la colección, ranking vacío y paso al ranking con Mariel, e Inicio con dos sobres. Colección vacía revisado a 320 px sin desbordamiento horizontal. Sin errores de consola en la sesión revisada.
 
 ## Ajustes móviles
 
@@ -88,7 +88,7 @@ El menú ocupa su propia fila fuera del área de contenido desplazable y respeta
 
 Solo en el detalle, mantener presionada la carta durante 220 ms muestra su versión realista; soltar restaura inmediatamente el dibujo. Un toque breve no cambia la imagen. También admite Espacio/Enter sostenidos y restaura al cancelar el gesto, perder foco o cambiar de pestaña. El desplazamiento vertical sigue disponible fuera de la carta; sobre ella se reserva el gesto para mantener presionado. Se evita el menú de guardar imagen durante la pulsación.
 
-El colección y los sobres usan siempre `imageUrl` (dibujo). `realisticImageUrl` y `realisticImagePosition` se usan exclusivamente en `CardDiscovery`. Son dos representaciones de la misma carta: no crean copias ni alteran progreso o ranking. La segunda imagen se precarga al entrar en detalle; si falla, se conserva el dibujo.
+La colección y los sobres usan siempre `imageUrl` (dibujo). `realisticImageUrl` y `realisticImagePosition` se usan exclusivamente en `CardDiscovery`. Son dos representaciones de la misma carta: no crean copias ni alteran progreso o ranking. La segunda imagen se precarga al entrar en detalle; si falla, se conserva el dibujo.
 
 Parejas disponibles: Lucía (`8da36.png` / `6b38c.png`) y Rodrigo (mitades derecha/izquierda del recurso `c3c29.png`, mediante encuadre CSS). Falta aportar la versión realista de El alfarero y las parejas de los espacios reservados. No se ha generado ni sustituido esa imagen por otra persona. Para incorporarla, añadir su archivo y `realisticImageUrl` en el catálogo. Las cartas definitivas deberán tener ambas versiones.
 
@@ -118,7 +118,7 @@ No hacen falta reglas de reescritura: la navegación de esta demo se maneja en m
 
 ### Resumen de Inicio y Mi colección
 
-Inicio reúne el progreso de cartas únicas y la posición de ranking en una sola tarjeta encima de los sobres. Sin cartas muestra 00/30 y # 0. Mi colección muestra cartas distintas sobre el catálogo de 30 y cartas totales (todas las copias). Las repetidas no aumentan el progreso ni el ranking. La navegación y los textos visibles usan Colección en lugar de Colección.
+Inicio reúne el progreso de cartas únicas y la posición de ranking en una sola tarjeta encima de los sobres. Sin cartas muestra 00/30 y # 0. Mi colección muestra cartas distintas sobre el catálogo de 30 y cartas totales (todas las copias). Las repetidas no aumentan el progreso ni el ranking. La navegación y los textos visibles usan Colección.
 
 ### Giro de cartas al descubrirlas
 
@@ -128,7 +128,7 @@ En Ranking, la fila del usuario actual tiene una etiqueta Tú y un contorno lila
 
 ## Continuar el desarrollo en GitHub
 
-Este repositorio contiene el proyecto existente, incluidas todas las pantallas, componentes e ilustraciones. No se necesita un archivo `.env` ni un backend para ejecutarlo. Usa Node.js 22.12 o superior compatible con las dependencias; `.nvmrc` fija 22.12.0 como referencia.
+Este repositorio contiene el proyecto existente, incluidas todas las pantallas, componentes e ilustraciones. No se necesita un archivo `.env` ni un backend para ejecutarlo. Usa Node.js 26.12.1, fijado en `.nvmrc` y utilizado en la validación. Si usas otra versión, comprueba los requisitos de las dependencias: jsdom 31 exige ^22.22.2, ^24.15.0 o >=26.0.0.
 
 ```sh
 git clone https://github.com/roesvisa/cartas-de-la-familia.git

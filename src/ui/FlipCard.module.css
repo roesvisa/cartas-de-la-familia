@@ -1,0 +1,26 @@
+.card {
+  display: block;
+  width: 100%;
+  aspect-ratio: 106 / 165;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  perspective: 700px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-touch-callout: none;
+  cursor: pointer;
+}
+.rotor { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 220ms ease-out; }
+.rotor[data-dragging="true"] { transition: none; }
+.back, .front {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  border: 3px solid var(--color-gold); border-radius: 12px;
+  overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: linear-gradient(140deg,#51118b,#a340e7 45%,#38095f 46%,#77289c);
+  box-shadow: inset 0 0 0 2px #fff4c4;
+}
+.back img { width: 90%; height: 90%; object-fit: contain; pointer-events: none; }
+.front { transform: rotateY(180deg); }
+.front img { width: 100%; height: 100%; object-fit: cover; object-position: right; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .rotor { transition: none; } }

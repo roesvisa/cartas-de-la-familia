@@ -1,0 +1,24 @@
+:root {
+  --color-bg: #321a47;
+  --color-panel: #3f225c;
+  --color-gold: #f8cb65;
+  --color-violet: #542b88;
+  --color-lavender: #866499;
+  --color-cream: #fffbf7;
+  --color-text: #fff7fc;
+  --color-muted: #d7bddf;
+  --color-ink: #321a47;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --font-family: "Inter", sans-serif;
+  --font-display: 28px;
+  --font-section: 20px;
+  --font-body: 15px;
+}

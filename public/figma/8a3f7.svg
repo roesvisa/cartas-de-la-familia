@@ -1,0 +1,29 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="111" height="155" viewBox="0 0 111 155" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Carta-grande-Sofia">
+<g id="Vector">
+<use xlink:href="#stroke0_0_31" fill="#251039"/>
+<mask id="stroke1_0_31" fill="white">
+<use xlink:href="#stroke0_0_31"/>
+</mask>
+<path d="M9.25 0H101.75C106.859 0 111 4.18047 111 9.33735V145.663C111 150.82 106.859 155 101.75 155H9.25C4.14137 155 0 150.82 0 145.663V9.33735C0 4.18047 4.14137 0 9.25 0Z" stroke-width="4" stroke="#F4BD5F" mask="url(#stroke1_0_31)"/>
+</g>
+<g id="Vector_2">
+<use xlink:href="#stroke2_0_31" fill="url(#paint0_linear_0_31)"/>
+<mask id="stroke3_0_31" fill="white">
+<use xlink:href="#stroke2_0_31"/>
+</mask>
+<path d="M11.7273 4.60396H99.2911C103.239 4.60396 106.439 7.86763 106.439 11.8936V143.106C106.439 147.132 103.239 150.396 99.2911 150.396H11.7273C7.77952 150.396 4.57922 147.132 4.57922 143.106V11.8936C4.57922 7.86763 7.77952 4.60396 11.7273 4.60396Z" stroke-width="4" stroke="#FFEBB1" mask="url(#stroke3_0_31)"/>
+</g>
+<g id="Frame 9">
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_31" x1="4.57922" y1="4.60396" x2="123.041" y2="108.06" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3B1459"/>
+<stop offset="0.7" stop-color="#6A2B93"/>
+<stop offset="1" stop-color="#2A113D"/>
+</linearGradient>
+<path id="stroke0_0_31" d="M101.75 0H9.25C4.14137 0 0 4.18047 0 9.33735V145.663C0 150.82 4.14137 155 9.25 155H101.75C106.859 155 111 150.82 111 145.663V9.33735C111 4.18047 106.859 0 101.75 0Z"/>
+<path id="stroke2_0_31" d="M99.2911 4.60396H11.7273C7.77952 4.60396 4.57922 7.86763 4.57922 11.8936V143.106C4.57922 147.132 7.77952 150.396 11.7273 150.396H99.2911C103.239 150.396 106.439 147.132 106.439 143.106V11.8936C106.439 7.86763 103.239 4.60396 99.2911 4.60396Z"/>
+</defs>
+</svg>

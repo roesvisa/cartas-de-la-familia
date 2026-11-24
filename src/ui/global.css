@@ -1,0 +1,82 @@
+@import "./fonts.css";
+@import "./tokens.css";
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-body);
+  color: var(--color-text);
+  background: #160a27;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  cursor: pointer;
+  color: inherit;
+  touch-action: manipulation;
+}
+button:disabled {
+  cursor: default;
+}
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 4px;
+}
+h1,
+h2,
+p {
+  margin: 0;
+}
+h1 {
+  font-size: var(--font-display);
+  line-height: 1.25;
+}
+h2 {
+  font-size: var(--font-section);
+}
+img {
+  display: block;
+}
+button {
+  border: 0;
+}
+input {
+  min-width: 0;
+}
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+progress {
+  appearance: none;
+  display: block;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #ddcbdc;
+  height: 7px;
+  width: 100%;
+}
+progress::-webkit-progress-bar {
+  background: #ddcbdc;
+}
+progress::-webkit-progress-value {
+  background: #a346e5;
+}
+progress::-moz-progress-bar {
+  background: #a346e5;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *:before,
+  *:after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
