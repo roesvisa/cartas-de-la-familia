@@ -1,0 +1,33 @@
+.slot:disabled {
+  border: 2px dashed #7e6b9699;
+  background: #2d223cb8;
+  box-shadow: none;
+  isolation: isolate;
+}
+.slot > .shadow,
+.slot > .fallback {
+  position: absolute;
+  inset: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.18;
+}
+.slot > .shadow {
+  object-fit: cover;
+  object-position: right;
+}
+.slot > .fallback {
+  inset: 15% 10% 0;
+  width: 80%;
+  height: 85%;
+  fill: #08050e;
+}
+.slot > .number {
+  position: relative;
+  color: #c8bcd6;
+  font-size: 23px;
+  font-weight: 600;
+}
+.filter { position: absolute; width: 0; height: 0; overflow: hidden; }
