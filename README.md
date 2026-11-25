@@ -25,7 +25,7 @@ Para revisar el diseño con datos ficticios, **solo en desarrollo**, abre `http:
 4. Ver la colección: el inventario ya contiene las cartas recibidas. Pueden aparecer duplicadas incluso en un mismo sobre; las copias no suman al progreso de únicas.
 5. Buscar por nombre o filtrar Comunes, Raras y Especiales. El filtro Todas muestra los 30 espacios; los filtros de rareza muestran cartas obtenidas.
 6. Tocar una carta obtenida para ver su detalle. Volver a la colección con la flecha.
-7. Ranking muestra miembros de la colección ordenados por cartas únicas. Los usuarios sin cartas no figuran; empates por nombre.
+7. Ranking muestra miembros de la colección ordenados por cartas únicas. Los usuarios sin cartas no figuran; empates por quien alcanzó antes esa cantidad; los sobres con solo repetidas no cambian la prioridad.
 8. Abrir el siguiente sobre hasta agotar los tres. Inicio pasa por 3, 2, 1 y 0 sobres; el botón queda desactivado al agotarlos.
 
 La apertura es de **un sobre y tres cartas** por operación. No se implementó apertura masiva de nueve cartas ni entrega diaria. La entrega diaria sigue pendiente; en producción no se muestra un contador ficticio.

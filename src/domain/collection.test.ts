@@ -131,3 +131,14 @@ it('uses aggregate server ranking without exposing other inventories', () => {
  ];
  expect(ranking(snapshot).map(row => [row.id,row.unique])).toEqual([['b',3],['a',2]]);
 });
+
+
+it('respects the server chronological position for equal unique counts, not names', () => {
+ const snapshot = createFixture();
+ snapshot.leaderboard = [
+  {id:'later',name:'Ana',initials:'A',unique:3,position:2},
+  {id:'first',name:'Zoe',initials:'Z',unique:3,position:1},
+  {id:'third',name:'Beto',initials:'B',unique:3,position:3},
+ ];
+ expect(ranking(snapshot).map(row => row.id)).toEqual(['first','later','third']);
+});

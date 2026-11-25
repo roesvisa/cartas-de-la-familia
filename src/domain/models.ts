@@ -34,7 +34,7 @@ export interface Inventory {
   collectionId: string;
   quantities: Record<string, number>;
 }
-export interface RankingEntry extends User { unique: number; }
+export interface RankingEntry extends User { unique: number; position?: number; }
 export interface Snapshot {
   leaderboard?: RankingEntry[];
   user: User;
