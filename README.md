@@ -137,7 +137,7 @@ npm ci
 npm run dev
 ```
 
-El repositorio es privado: clonar y enviar cambios requiere acceso con tu cuenta de GitHub. La sesión de GitHub en Codex y la autenticación de Git en tu equipo son independientes.
+El repositorio es público: cualquiera puede clonarlo; enviar cambios requiere permisos con tu cuenta de GitHub. La sesión de GitHub en Codex y la autenticación de Git en tu equipo son independientes.
 
 Para cada cambio, parte de `main` actualizado, crea una rama y conserva el trabajo en commits pequeños:
 
@@ -156,3 +156,9 @@ git push -u origin codex/descripcion-del-cambio
 Revisa el diff antes del commit y abre un pull request hacia `main`. Las imágenes nuevas se agregan explícitamente desde `public/`. `package-lock.json` se guarda para instalaciones reproducibles; `node_modules/`, `dist/`, archivos de entorno, claves privadas y archivos temporales se excluyen mediante `.gitignore`. La contraseña del login de demostración es ficticia y pública por diseño; no otorga acceso a servicios reales.
 
 El ranking actual muestra un podio para los puestos 1–3 y una lista desde el cuarto lugar. La marca Tú identifica al usuario tanto en el podio como en la lista. La arquitectura y el diseño existentes se conservan; la futura integración de backend es una etapa separada.
+
+## Publicación en GitHub Pages
+
+URL: https://roesvisa.github.io/cartas-de-la-familia/
+
+El workflow `.github/workflows/pages.yml` instala dependencias, ejecuta las pruebas y compila la app antes de publicar `dist`. Se ejecuta al actualizar `main` o manualmente desde Actions. No requiere FileZilla ni secretos personalizados. Si fallan las pruebas o la compilación, no publica esa versión. El sitio mantiene datos simulados; no incluye backend ni persistencia.
