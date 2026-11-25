@@ -122,3 +122,12 @@ describe("identidad de las cartas disponibles", () => {
     ).toBe(true);
   });
 });
+
+it('uses aggregate server ranking without exposing other inventories', () => {
+ const snapshot = createFixture();
+ snapshot.leaderboard = [
+  {id:'a',name:'Ana',initials:'A',unique:2},
+  {id:'b',name:'Beto',initials:'B',unique:3},
+ ];
+ expect(ranking(snapshot).map(row => [row.id,row.unique])).toEqual([['b',3],['a',2]]);
+});

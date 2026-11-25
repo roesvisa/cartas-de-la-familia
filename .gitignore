@@ -13,3 +13,6 @@ coverage/
 *.log
 .vscode/
 .idea/
+
+supabase/.temp/
+supabase/.branches/
