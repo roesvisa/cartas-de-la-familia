@@ -4,6 +4,7 @@ import {
   LockKeyhole,
   CalendarDays,
   UserRound,
+  LogOut,
 } from "lucide-react";
 import type { CollectionRepository } from "../data/repository";
 import { COLLECTION_ID } from "../data/fixtures";
@@ -27,9 +28,9 @@ import { PackReveal } from "./PackReveal";
 import { RankingBoard } from "./RankingBoard";
 import { CollectionSummary } from "./CollectionSummary";
 import s from "./App.module.css";
-export function App({ repository }: { repository: CollectionRepository }) {
+export function App({ repository, authenticated = false, onSignOut }: { repository: CollectionRepository; authenticated?: boolean; onSignOut?: () => void }) {
   const [session, setSession] = useState<"welcome" | "login" | "signed">(
-    "welcome",
+    authenticated ? "signed" : "welcome",
   );
   const [page, setPage] = useState<Page>("inicio"),
     [openingPage, setOpeningPage] = useState(false),
@@ -37,6 +38,12 @@ export function App({ repository }: { repository: CollectionRepository }) {
     [query, setQuery] = useState(""),
     [detail, setDetail] = useState<Card | null>(null);
   const model = useCollection(repository, COLLECTION_ID);
+  useEffect(() => {
+    if (!authenticated) return;
+    const refresh = () => { if (document.visibilityState === 'visible') void model.refresh(); };
+    window.addEventListener('focus', refresh);
+    return () => window.removeEventListener('focus', refresh);
+  }, [authenticated, model.refresh]);
   const main = useRef<HTMLElement>(null);
   const [openingPhase, setOpeningPhase] = useState<
     "idle" | "opening" | "revealing"
@@ -91,6 +98,7 @@ export function App({ repository }: { repository: CollectionRepository }) {
     available = data?.packs.filter((p) => p.status === "available").length ?? 0;
   const rows = data ? ranking(data).filter((r) => r.unique > 0) : [];
   function navigate(p: Page) {
+    if (authenticated) void model.refresh();
     setPage(p);
     setDetail(null);
     setOpeningPage(false);
@@ -132,6 +140,7 @@ export function App({ repository }: { repository: CollectionRepository }) {
           <div className={s.status} role="alert">
             <p>{model.error}</p>
             <Button onClick={model.reload}>Reintentar</Button>
+            {onSignOut && <button type="button" onClick={onSignOut} className={s.logout}>Cerrar sesión</button>}
           </div>
         ) : model.revealed.length && openingPhase !== "opening" ? (
           <PackReveal
@@ -187,13 +196,14 @@ export function App({ repository }: { repository: CollectionRepository }) {
           </section>
         ) : (
           <>
+            {model.error && <p role="alert">{model.error}</p>}
             {page === "inicio" && (
               <section className={s.home}>
                 <header className={s.homeHeader}>
                   <Logo />
                   <span
                     className={s.profile}
-                    aria-label="Perfil simulado de Mariel"
+                    aria-label={`Perfil de ${data.user.name}`}
                   >
                     <UserRound />
                   </span>
@@ -238,12 +248,13 @@ export function App({ repository }: { repository: CollectionRepository }) {
                         : "Abrir sobre"
                       : "Sin sobres por abrir"}
                   </Button>
-                  {available < 3 && (
+                  {!authenticated && available < 3 && (
                     <p className={s.timer}>
                       <CalendarDays size={18} /> Próximo sobre diario: simulado
                     </p>
                   )}
                 </section>
+                {onSignOut && <button type="button" onClick={onSignOut} className={s.logout}><LogOut size={18} /> Cerrar sesión</button>}
               </section>
             )}
             {page === "album" && (

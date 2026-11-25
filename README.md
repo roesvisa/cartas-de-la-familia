@@ -13,31 +13,28 @@ npm run dev
 
 Abrir http://127.0.0.1:5173 (o el puerto impreso por Vite).
 
-Credenciales ficticias, visibles también bajo el formulario:
+La app usa Supabase para el acceso por invitación y el guardado de sobres y cartas. La sesión persiste en este navegador; el inventario se guarda en el servidor y se recupera desde otro dispositivo al iniciar sesión.
 
-- Correo: `mariel@familia.demo`
-- Contraseña: `familia123`
-
-No usar credenciales personales. La validación se realiza en memoria, no autentica contra ningún servicio ni permite registrarse. Al recargar se reinician la sesión, cartas y sobres.
+Para revisar el diseño con datos ficticios, **solo en desarrollo**, abre `http://127.0.0.1:5173/?demo=normal`. Acceso: `mariel@familia.demo` / `familia123`. Este acceso no funciona en producción ni permite leer datos reales.
 
 ## Recorrido
 
-1. Ingresar desde bienvenida y completar el login de demostración.
+1. Ingresar desde bienvenida y completar el login con una cuenta invitada.
 2. Inicio muestra 0/30 cartas y 3 sobres. Colección tiene su estado vacío.
 3. Abrir sobres, tocar el sobre y revelar sus tres cartas. Tocar la carta ampliada o pulsar Escape para continuar. El diálogo contiene el foco y lo devuelve a la carta.
 4. Ver la colección: el inventario ya contiene las cartas recibidas. Pueden aparecer duplicadas incluso en un mismo sobre; las copias no suman al progreso de únicas.
 5. Buscar por nombre o filtrar Comunes, Raras y Especiales. El filtro Todas muestra los 30 espacios; los filtros de rareza muestran cartas obtenidas.
 6. Tocar una carta obtenida para ver su detalle. Volver a la colección con la flecha.
-7. Ranking muestra usuarios ficticios ordenados por cartas únicas. Los usuarios sin cartas no figuran; empates por nombre.
+7. Ranking muestra miembros de la colección ordenados por cartas únicas. Los usuarios sin cartas no figuran; empates por nombre.
 8. Abrir el siguiente sobre hasta agotar los tres. Inicio pasa por 3, 2, 1 y 0 sobres; el botón queda desactivado al agotarlos.
 
-La apertura es de **un sobre y tres cartas** por operación. No se implementó apertura masiva de nueve cartas ni entrega diaria. El aviso diario se etiqueta «simulado».
+La apertura es de **un sobre y tres cartas** por operación. No se implementó apertura masiva de nueve cartas ni entrega diaria. La entrega diaria sigue pendiente; en producción no se muestra un contador ficticio.
 
 ## Escenarios reproducibles
 
-Todos requieren pasar por el login simulado:
+Estos escenarios se ejecutan exclusivamente en desarrollo con login simulado:
 
-- `/?packs=0`, `/?packs=1`, `/?packs=2`, `/?packs=3`: sobres iniciales.
+- `/?demo=normal&packs=0`, `/?demo=normal&packs=1`, `/?demo=normal&packs=2`, `/?demo=normal&packs=3`: sobres iniciales.
 - `/?demo=empty`: ranking sin coleccionistas y colección vacía, con tres sobres para comenzar. Abrir uno incorpora a Mariel al ranking.
 - `/?demo=error`: error persistente del repositorio y botón Reintentar. Quitar el parámetro para recuperar el escenario normal.
 - Credenciales incorrectas: mensaje de error en login.
@@ -51,20 +48,20 @@ npm run build
 npm run preview
 ```
 
-39 pruebas cubren login simulado, inventario vacío, duplicados, ranking, aislamiento de usuario/colección, apertura de tres cartas, agotamiento y concurrencia. TypeScript estricto y compilación Vite verificados.
+44 pruebas cubren login simulado, inventario vacío, duplicados, ranking, aislamiento de usuario/colección, apertura de tres cartas, agotamiento y concurrencia. TypeScript estricto y compilación Vite verificados.
 
 Para revisar en teléfono de la misma red: `npm run dev -- --host 0.0.0.0`, y abrir `http://IP-DEL-COMPUTADOR:5173`. Las vistas móviles se han revisado en navegador y se han ajustado a partir de las capturas del teléfono del usuario.
 
 ## Arquitectura
 
 - `src/domain/`: tipos y reglas puras de colección, inventario, ranking y sorteo.
-- `src/data/`: contrato `CollectionRepository`, implementación en memoria, fixtures y acceso simulado.
+- `src/data/`: contrato `CollectionRepository`, adaptadores Supabase y memoria; fixtures para pruebas.
 - `src/application/useCollection.ts`: coordinación de carga, apertura y errores.
 - `src/ui/`: componentes reutilizables (Button, Logo, Title, Back, Navigation, EmptyState, CardTile), pantallas y revelación.
 - `src/ui/tokens.css`: colores, tipografía, radios y espaciado del Design System.
 - `src/main.tsx`: composición e inyección del repositorio y escenarios de prueba.
 
-Cada carta, sobre e inventario está vinculado a una colección. La colección tiene 30 espacios y tres cartas disponibles con identidades e ilustraciones distintas. Los 27 espacios restantes están reservados (`availableInPacks: false`) y no se sortean hasta incorporar su contenido. Cada copia se acumula en el mismo identificador; la colección muestra una carta con xN en la esquina inferior derecha. Reemplazar `imageUrl`, nombres y categorías en `fixtures.ts` para introducir el catálogo real.
+Cada carta, sobre e inventario está vinculado a una colección. La colección tiene 30 espacios y tres cartas disponibles con identidades e ilustraciones distintas. Los 27 espacios restantes están reservados (`availableInPacks: false`) y no se sortean hasta incorporar su contenido. Cada copia se acumula en el mismo identificador; la colección muestra una carta con xN en la esquina inferior derecha. El catálogo real está en `public.cards` de Supabase. `fixtures.ts` solo alimenta las pruebas y la demo local.
 
 ## Recursos visuales
 
@@ -74,11 +71,11 @@ El dorso usa la imagen aportada en `public/cards/family-card-back.png`, con marc
 
 ## Fuera de alcance
 
-Sin autenticación real, Supabase, base de datos, registro público, entregas diarias, compras, monedas, intercambios ni minijuegos. El siguiente backend deberá implementar el contrato del repositorio, sesión real, permisos por usuario y colección, almacenamiento y apertura atómica del lado servidor. El sorteo del cliente solo sirve para esta demo.
+Sin registro público, entregas diarias, compras, monedas, intercambios ni minijuegos. El backend actual gestiona autenticación, inventarios y apertura atómica. Las imágenes siguen alojadas con la web; trasladarlas a Storage queda para una etapa posterior.
 
 ## Revisión de esta entrega
 
-Compilación de producción y 39 pruebas aprobadas. Recorrido manual verificado a 390 × 844: login, apertura, tres revelaciones, ampliación y Escape, incorporación a la colección, ranking vacío y paso al ranking con Mariel, e Inicio con dos sobres. Colección vacía revisado a 320 px sin desbordamiento horizontal. Sin errores de consola en la sesión revisada.
+Compilación de producción y 44 pruebas aprobadas. Recorrido manual verificado a 390 × 844: login, apertura, tres revelaciones, ampliación y Escape, incorporación a la colección, ranking vacío y paso al ranking con Mariel, e Inicio con dos sobres. Colección vacía revisado a 320 px sin desbordamiento horizontal. Sin errores de consola en la sesión revisada.
 
 ## Ajustes móviles
 
@@ -102,7 +99,7 @@ La pulsación se registra aunque la imagen realista esté descargándose, y se r
 
 El rasgado y el brillo siguen el avance del dedo. Si se suelta antes del umbral, el sobre se restaura sin consumirse. Al completar el recorrido, la tira superior se desprende y un brillo cubre la pantalla durante 850 ms; luego se desvanece durante 450 ms para mostrar las tres cartas boca abajo. Se conserva la apertura con toque o teclado. Con movimiento reducido, la transición se acorta a 120 ms por fase. La animación utiliza capas de la imagen existente y CSS, sin descargar video ni nuevas librerías.
 
-Validación: 39 pruebas, incluidas apertura en ambas direcciones, avance parcial, cancelación y recuperación tras fallo. Prueba de navegador a 390 × 700: un arrastre completo muestra las tres cartas.
+Validación: 44 pruebas, incluidas apertura en ambas direcciones, avance parcial, cancelación y recuperación tras fallo. Prueba de navegador a 390 × 700: un arrastre completo muestra las tres cartas.
 
 ### Abrir sin barra del navegador
 
@@ -122,13 +119,13 @@ Inicio reúne el progreso de cartas únicas y la posición de ranking en una sol
 
 ### Giro de cartas al descubrirlas
 
-En la revelación de un sobre puedes tocar una carta o deslizar horizontalmente sobre ella en cualquiera de los dos sentidos. El giro sigue el dedo y, al superar los 90° (42,5 % del ancho de la carta), el giro se completa automáticamente y abre la carta en grande. Un gesto incompleto o cancelado vuelve al dorso sin descubrirla. Se mantiene el acceso por teclado y se respeta movimiento reducido. Al descubrir las tres cartas del último sobre, Ver mi colección usa el estilo amarillo principal; debajo aparece Ir al Home como acción secundaria. Para probar rápidamente el último sobre, abre la app con `?packs=1`.
+En la revelación de un sobre puedes tocar una carta o deslizar horizontalmente sobre ella en cualquiera de los dos sentidos. El giro sigue el dedo y, al superar los 90° (42,5 % del ancho de la carta), el giro se completa automáticamente y abre la carta en grande. Un gesto incompleto o cancelado vuelve al dorso sin descubrirla. Se mantiene el acceso por teclado y se respeta movimiento reducido. Al descubrir las tres cartas del último sobre, Ver mi colección usa el estilo amarillo principal; debajo aparece Ir al Home como acción secundaria. Para probar rápidamente el último sobre, abre la app con `?demo=normal&packs=1`.
 
 En Ranking, la fila del usuario actual tiene una etiqueta Tú y un contorno lila suave, independientes de los colores del podio.
 
 ## Continuar el desarrollo en GitHub
 
-Este repositorio contiene el proyecto existente, incluidas todas las pantallas, componentes e ilustraciones. No se necesita un archivo `.env` ni un backend para ejecutarlo. Usa Node.js 26.12.1, fijado en `.nvmrc` y utilizado en la validación. Si usas otra versión, comprueba los requisitos de las dependencias: jsdom 31 exige ^22.22.2, ^24.15.0 o >=26.0.0.
+Este repositorio contiene el proyecto existente, incluidas todas las pantallas, componentes e ilustraciones. No se necesita un archivo `.env`: el cliente incluye únicamente la URL y la clave PUBLICABLE de este proyecto Supabase. Nunca se debe incluir una clave secreta o service_role. Usa Node.js 26.12.1, fijado en `.nvmrc` y utilizado en la validación. Si usas otra versión, comprueba los requisitos de las dependencias: jsdom 31 exige ^22.22.2, ^24.15.0 o >=26.0.0.
 
 ```sh
 git clone https://github.com/roesvisa/cartas-de-la-familia.git
@@ -155,10 +152,40 @@ git push -u origin codex/descripcion-del-cambio
 
 Revisa el diff antes del commit y abre un pull request hacia `main`. Las imágenes nuevas se agregan explícitamente desde `public/`. `package-lock.json` se guarda para instalaciones reproducibles; `node_modules/`, `dist/`, archivos de entorno, claves privadas y archivos temporales se excluyen mediante `.gitignore`. La contraseña del login de demostración es ficticia y pública por diseño; no otorga acceso a servicios reales.
 
-El ranking actual muestra un podio para los puestos 1–3 y una lista desde el cuarto lugar. La marca Tú identifica al usuario tanto en el podio como en la lista. La arquitectura y el diseño existentes se conservan; la futura integración de backend es una etapa separada.
+El ranking actual muestra un podio para los puestos 1–3 y una lista desde el cuarto lugar. La marca Tú identifica al usuario tanto en el podio como en la lista. La arquitectura y el diseño existentes se conservan; el backend usa Supabase conservando el diseño.
 
 ## Publicación en GitHub Pages
 
 URL: https://roesvisa.github.io/cartas-de-la-familia/
 
-El workflow `.github/workflows/pages.yml` instala dependencias, ejecuta las pruebas y compila la app antes de publicar `dist`. Se ejecuta al actualizar `main` o manualmente desde Actions. No requiere FileZilla ni secretos personalizados. Si fallan las pruebas o la compilación, no publica esa versión. El sitio mantiene datos simulados; no incluye backend ni persistencia.
+El workflow `.github/workflows/pages.yml` instala dependencias, ejecuta las pruebas y compila la app antes de publicar `dist`. Se ejecuta al actualizar `main` o manualmente desde Actions. No requiere FileZilla ni secretos personalizados. Si fallan las pruebas o la compilación, no publica esa versión. La web se comunica directamente con Supabase; GitHub Pages aloja solo el frontend.
+
+
+## Backend Supabase
+
+Proyecto: `bkkyustjpclrssqrkrck`, región `sa-east-1`.
+Panel: https://supabase.com/dashboard/project/bkkyustjpclrssqrkrck
+
+- `collections`, `cards`: catálogo vinculado a colección.
+- `profiles`, `memberships`: identidad visible y acceso autorizado.
+- `packs`, `inventory`, `pack_cards`: sobres, cantidades y resultado durable de cada apertura.
+- `collection_snapshot`: devuelve el inventario propio y únicamente los conteos agregados de otros miembros para el ranking.
+- `open_pack`: sorteo del servidor, bloqueo transaccional y respuesta idempotente por ID de sobre. Repetir la petición no consume cartas ni sobres adicionales.
+- RLS en todas las tablas. El cliente solo lee; no puede crear sobres, cambiar cantidades ni inscribirse en colecciones. Las funciones privilegiadas viven en `private` y comprueban identidad y pertenencia.
+- Ranking se actualiza al navegar o regresar a la ventana. No usa suscripciones Realtime.
+
+### Invitar familiares
+
+En Authentication → Users → Invite user del panel, enviar la invitación a su correo. El trigger de la base reconoce exclusivamente invitaciones del administrador y añade automáticamente al usuario a `familia-2026` con tres sobres iniciales. La persona abre el enlace y elige su contraseña en la app. Nunca guardar contraseñas en GitHub ni enviar claves de administración al navegador.
+
+Configuración necesaria en Authentication antes de invitar: desactivar **Allow new users to sign up**, mantener acceso anónimo desactivado y establecer Site URL en `https://roesvisa.github.io/cartas-de-la-familia/`. Autorizar esa misma URL de redirección. La entrega de emails para direcciones externas puede requerir configurar SMTP propio según las restricciones del servicio de correo de Supabase.
+
+Si un administrador crea una cuenta directamente (sin invitación), debe asignarle acceso desde SQL Editor con `select private.enroll_user('UUID_DEL_USUARIO', 'familia-2026', 'Nombre');`. Esta función no es accesible desde el cliente y no vuelve a dar sobres si ya existe la membresía.
+
+### Validación del servidor
+
+Migraciones versionadas en `supabase/migrations/`. No volver a aplicarlas sobre el mismo proyecto: ya están instaladas. `supabase/tests/isolation.sql` se ejecuta en SQL Editor como administrador y termina con ROLLBACK: prueba permisos de dos usuarios, inventario, ranking, reintentos, escrituras prohibidas y bloqueo anónimo, sin conservar cuentas de prueba. No prueba el envío de correo.
+
+Pendiente de prueba con cuentas personales: aceptar invitación, definir contraseña, cerrar y abrir sesión desde dos celulares y comprobar el ranking. La colección conserva 30 posiciones y 3 cartas habilitadas; las otras 27 necesitan su contenido definitivo.
+
+Estado de activación: integración preparada en la rama `codex/supabase-backend`. No publicar en `main` hasta configurar Auth (registro cerrado y URL) y validar una invitación real. Las migraciones sí están aplicadas en el proyecto Supabase.

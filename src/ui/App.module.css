@@ -1264,3 +1264,5 @@
   color: #43245b;
   vertical-align: middle;
 }
+
+.logout { display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; color:var(--text, #fff); background:transparent; border:0; cursor:pointer; }

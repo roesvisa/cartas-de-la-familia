@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./ui/App";
+import { ConnectedApp } from "./ui/ConnectedApp";
 import { MockCollectionRepository } from "./data/mockRepository";
 import "./ui/global.css";
 const params = new URLSearchParams(location.search),
@@ -13,6 +14,6 @@ const repository = new MockCollectionRepository(
 );
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App repository={repository} />
+    {import.meta.env.DEV && scenario ? <App repository={repository} /> : <ConnectedApp />}
   </StrictMode>,
 );

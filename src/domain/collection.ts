@@ -16,6 +16,7 @@ export function progress(cards: Card[], inventory?: Inventory) {
   };
 }
 export function ranking(snapshot: Snapshot) {
+  if (snapshot.leaderboard) return [...snapshot.leaderboard].sort((a, b) => b.unique - a.unique || a.name.localeCompare(b.name, "es") || a.id.localeCompare(b.id));
   return snapshot.users
     .map((user) => ({
       ...user,

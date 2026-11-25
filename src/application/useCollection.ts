@@ -11,6 +11,17 @@ export function useCollection(
   const [error, setError] = useState("");
   const [revealed, setRevealed] = useState<RevealedCard[]>([]);
   const busy = useRef(false);
+  const version = useRef(0);
+  const refresh = useCallback(async () => {
+    if (busy.current) return;
+    const request = ++version.current;
+    try {
+      const next = await repository.load(collectionId);
+      if (request === version.current && !busy.current) { setSnapshot(next); setError(""); }
+    } catch {
+      if (request === version.current) setError("No pudimos actualizar la colección. Comprueba tu conexión.");
+    }
+  }, [repository, collectionId]);
   const reload = useCallback(async () => {
     setLoading(true);
     setError("");
@@ -34,6 +45,7 @@ export function useCollection(
         p.collectionId === collectionId,
     );
     if (!pack) return false;
+    version.current++;
     busy.current = true;
     setOpening(true);
     setError("");
@@ -57,6 +69,7 @@ export function useCollection(
     error,
     revealed,
     reload,
+    refresh,
     open,
     closeReveal: () => setRevealed([]),
   };

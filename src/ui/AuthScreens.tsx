@@ -23,9 +23,13 @@ export function Welcome({ onEnter }: { onEnter: () => void }) {
 export function Login({
   onBack,
   onSuccess,
+  authenticate = login,
+  demo = true,
 }: {
   onBack: () => void;
   onSuccess: () => void;
+  authenticate?: (email: string, password: string) => Promise<void>;
+  demo?: boolean;
 }) {
   const [email, setEmail] = useState(""),
     [password, setPassword] = useState(""),
@@ -44,7 +48,7 @@ export function Login({
           setBusy(true);
           setError("");
           try {
-            await login(email, password);
+            await authenticate(email, password);
             onSuccess();
           } catch (e) {
             setError((e as Error).message);
@@ -94,11 +98,11 @@ export function Login({
         )}
         <Button disabled={busy}>{busy ? "Entrando…" : "Entrar"}</Button>
       </form>
-      <p className={s.demo}>
+      {demo && <p className={s.demo}>
         Acceso de demostración
         <br />
         {DEMO_EMAIL} · {DEMO_PASSWORD}
-      </p>
+      </p>}
     </section>
   );
 }
