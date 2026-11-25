@@ -9,10 +9,10 @@
   background: linear-gradient(120deg, #fff9ed, #f8e7dc);
   color: var(--color-ink);
 }
-.home { grid-template-columns: 1fr 1fr; }
-.collection { grid-template-columns: 1fr 36px 1fr; text-align: center; }
+.home { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.collection { grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr); text-align: center; }
 .metric, .ranking { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.metric img { width: 28px; height: 36px; object-fit: contain; }
+.metric img { flex-shrink: 0; width: 28px; height: 36px; object-fit: contain; }
 .panel span { display: block; font-size: 13px; }
 .panel p { margin: 2px 0 0; font-size: 15px; }
 .panel strong { font-size: 20px; }
@@ -38,3 +38,5 @@
   .ranking { padding-left: 8px; }
   .panel span { font-size: 12px; }
 }
+
+.metric > div, .ranking > div { min-width: 0; overflow-wrap: anywhere; }
