@@ -13,7 +13,7 @@ begin
  select id into pid from public.packs limit 1;
  first_draw:=public.open_pack('familia-2026',pid);
  retry_draw:=public.open_pack('familia-2026',pid);
- if first_draw<>retry_draw then raise exception 'Pack retry changed result'; end if;
+ if (first_draw #- '{snapshot,serverNow}')<>(retry_draw #- '{snapshot,serverNow}') then raise exception 'Pack retry changed result'; end if;
  if jsonb_array_length(first_draw->'revealed')<>3 then raise exception 'Expected three cards'; end if;
  if (select sum(quantity) from public.inventory)<>3 then raise exception 'Inventory persisted incorrectly'; end if;
  if (select count(*) from public.packs where status='available')<>2 then raise exception 'Incorrect remaining packs'; end if;

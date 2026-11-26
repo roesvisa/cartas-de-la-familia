@@ -36,6 +36,9 @@ export interface Inventory {
 }
 export interface RankingEntry extends User { unique: number; position?: number; }
 export interface Snapshot {
+  /** Server time and refill deadline, absent in the local demo. */
+  serverNow?: string;
+  nextPackAt?: string | null;
   leaderboard?: RankingEntry[];
   user: User;
   collection: Collection;

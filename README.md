@@ -28,7 +28,7 @@ Para revisar el diseño con datos ficticios, **solo en desarrollo**, abre `http:
 7. Ranking muestra miembros de la colección ordenados por cartas únicas. Los usuarios sin cartas no figuran; empates por quien alcanzó antes esa cantidad; los sobres con solo repetidas no cambian la prioridad.
 8. Abrir el siguiente sobre hasta agotar los tres. Inicio pasa por 3, 2, 1 y 0 sobres; el botón queda desactivado al agotarlos.
 
-La apertura es de **un sobre y tres cartas** por operación. No se implementó apertura masiva de nueve cartas ni entrega diaria. La entrega diaria sigue pendiente; en producción no se muestra un contador ficticio.
+La apertura es de **un sobre y tres cartas** por operación. La reposición entrega un sobre cada 24 horas desde la primera apertura con el inventario lleno. Abrir más sobres no reinicia el ciclo. Se acumulan como máximo tres; al llegar a tres el ciclo se detiene hasta abrir otro. Inicio muestra el tiempo restante confirmado por el servidor, y recupera los sobres acumulados al volver a la aplicación.
 
 ## Escenarios reproducibles
 
@@ -75,7 +75,7 @@ Sin registro público, entregas diarias, compras, monedas, intercambios ni minij
 
 ## Revisión de esta entrega
 
-Compilación de producción y 44 pruebas aprobadas. Recorrido manual verificado a 390 × 844: login, apertura, tres revelaciones, ampliación y Escape, incorporación a la colección, ranking vacío y paso al ranking con Mariel, e Inicio con dos sobres. Colección vacía revisado a 320 px sin desbordamiento horizontal. Sin errores de consola en la sesión revisada.
+Compilación de producción y 47 pruebas aprobadas. Recorrido manual verificado a 390 × 844: login, apertura, tres revelaciones, ampliación y Escape, incorporación a la colección, ranking vacío y paso al ranking con Mariel, e Inicio con dos sobres. Colección vacía revisado a 320 px sin desbordamiento horizontal. Sin errores de consola en la sesión revisada.
 
 ## Ajustes móviles
 
@@ -189,3 +189,7 @@ Migraciones versionadas en `supabase/migrations/`. No volver a aplicarlas sobre 
 Pendiente de prueba con cuentas personales: aceptar invitación, definir contraseña, cerrar y abrir sesión desde dos celulares y comprobar el ranking. La colección conserva 30 posiciones y 3 cartas habilitadas; las otras 27 necesitan su contenido definitivo.
 
 Estado de activación: integración preparada en la rama `codex/supabase-backend`. No publicar en `main` hasta configurar Auth (registro cerrado y URL) y validar una invitación real. Las migraciones sí están aplicadas en el proyecto Supabase.
+
+### Validación de reposición diaria
+
+`supabase/tests/daily_packs.sql` verifica con transacciones revertidas el inicio del ciclo, aperturas sin reinicio, reposición, límite de tres, tiempo sin conexión e idempotencia. La migración `20261125233525_daily_pack_refill.sql` guarda el próximo plazo en la membresía; el servidor reconcilia el saldo al consultar o abrir sobres, sin depender del reloj del teléfono ni de una tarea programada.

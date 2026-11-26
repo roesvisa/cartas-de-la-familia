@@ -24,6 +24,7 @@ import { Welcome, Login } from "./AuthScreens";
 import { CardDiscovery } from "./CardDiscovery";
 import { CardTile } from "./CardTile";
 import { SwipeToOpen } from "./SwipeToOpen";
+import { PackCountdown } from "./PackCountdown";
 import { PackReveal } from "./PackReveal";
 import { RankingBoard } from "./RankingBoard";
 import { CollectionSummary } from "./CollectionSummary";
@@ -42,7 +43,11 @@ export function App({ repository, authenticated = false, onSignOut }: { reposito
     if (!authenticated) return;
     const refresh = () => { if (document.visibilityState === 'visible') void model.refresh(); };
     window.addEventListener('focus', refresh);
-    return () => window.removeEventListener('focus', refresh);
+    document.addEventListener('visibilitychange', refresh);
+    return () => {
+      window.removeEventListener('focus', refresh);
+      document.removeEventListener('visibilitychange', refresh);
+    };
   }, [authenticated, model.refresh]);
   const main = useRef<HTMLElement>(null);
   const [openingPhase, setOpeningPhase] = useState<
@@ -248,6 +253,9 @@ export function App({ repository, authenticated = false, onSignOut }: { reposito
                         : "Abrir sobre"
                       : "Sin sobres por abrir"}
                   </Button>
+                  {authenticated && available < 3 && data.nextPackAt && data.serverNow && (
+                    <PackCountdown nextPackAt={data.nextPackAt} serverNow={data.serverNow} onReady={model.refresh} />
+                  )}
                   {!authenticated && available < 3 && (
                     <p className={s.timer}>
                       <CalendarDays size={18} /> Próximo sobre diario: simulado
