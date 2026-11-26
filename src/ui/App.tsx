@@ -28,8 +28,11 @@ import { RankingBoard } from "./RankingBoard";
 import { CollectionSummary } from "./CollectionSummary";
 import { ProfileMenu } from "./ProfileMenu";
 import type { ProfileAuth } from "../application/profileAuth";
+import { useTheme } from "../theme/ThemeProvider";
+import { SeasonalSnowflakes, SeasonalBadge, SeasonalRibbon } from "./SeasonalDecorations";
 import s from "./App.module.css";
 export function App({ repository, authenticated = false, onSignOut, profileAuth }: { repository: CollectionRepository; authenticated?: boolean; onSignOut?: () => Promise<void>; profileAuth?: ProfileAuth }) {
+  const festive = useTheme() === "navidad";
   const [session, setSession] = useState<"welcome" | "login" | "signed">(
     authenticated ? "signed" : "welcome",
   );
@@ -121,7 +124,8 @@ export function App({ repository, authenticated = false, onSignOut, profileAuth 
         c.title.toLocaleLowerCase("es").includes(query.toLocaleLowerCase("es")),
     ) ?? [];
   return (
-    <div className={`${s.app} ${session === "signed" && !openingPage && !model.revealed.length && !detail ? s.collectionCanvas : ""}`}>
+    <div className={`${s.app} ${festive ? s.seasonalCanvas : ""} ${session === "signed" && !openingPage && !model.revealed.length && !detail ? s.collectionCanvas : ""}`}>
+      {session === "signed" && !openingPage && !model.revealed.length && !detail && <SeasonalSnowflakes />}
       {openingPhase !== "idle" && (
         <div
           aria-hidden="true"
@@ -218,7 +222,8 @@ export function App({ repository, authenticated = false, onSignOut, profileAuth 
                   rank={stats.unique ? rows.findIndex((r) => r.id === data.user.id) + 1 : 0}
                   onRanking={() => navigate("ranking")}
                 />
-                <section className={s.packPanel}>
+                <section className={`${s.packPanel} ${festive ? s.seasonalPackPanel : ""}`}>
+                  <SeasonalRibbon />
                   <h2>Sobres disponibles</h2>
                   <span className={s.pill}>
                     <b>{available}</b> de 3
@@ -262,7 +267,7 @@ export function App({ repository, authenticated = false, onSignOut, profileAuth 
             )}
             {page === "album" && (
               <section className={s.album}>
-                <h1>Mi colección</h1>
+                {festive ? <div className={s.seasonalTitle}><h1>Mi colección</h1><SeasonalBadge /></div> : <h1>Mi colección</h1>}
                 <CollectionSummary
                   unique={stats.unique}
                   capacity={stats.total}

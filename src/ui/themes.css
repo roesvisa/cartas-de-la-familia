@@ -1,0 +1,23 @@
+:root,
+[data-theme="default"] {
+  --canvas-base: #0e0d13;
+  --canvas-glow: radial-gradient(
+    ellipse 80% 35% at 50% 0%,
+    rgba(88, 44, 130, 0.32) 0%,
+    rgba(42, 22, 66, 0.12) 45%,
+    transparent 80%
+  );
+}
+[data-theme="navidad"] {
+  --canvas-glow: radial-gradient(
+    ellipse 85% 38% at 50% 0%,
+    rgba(22, 78, 56, 0.42) 0%,
+    rgba(120, 28, 42, 0.14) 48%,
+    transparent 82%
+  );
+  --seasonal-gold: #f3d078;
+  --seasonal-pine: #24543f;
+  --seasonal-crimson: #8a2030;
+  --seasonal-badge-bg: rgba(138, 32, 48, 0.28);
+  --seasonal-badge-border: rgba(243, 208, 120, 0.25);
+}

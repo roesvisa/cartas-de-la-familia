@@ -1,5 +1,6 @@
 import { Crown } from "lucide-react";
 import type { User } from "../domain/models";
+import { SeasonalHolly } from "./SeasonalDecorations";
 import s from "./RankingBoard.module.css";
 
 type RankedUser = User & { unique: number };
@@ -10,7 +11,7 @@ export function RankingBoard({ rows, currentUserId }: { rows: RankedUser[]; curr
         {rows.slice(0, 3).map((user, index) => (
           <li key={user.id} value={index + 1} className={s.winner} data-place={index + 1} data-you={user.id === currentUserId}>
             <div className={s.portrait}>
-              {index === 0 && <Crown className={s.crown} aria-hidden="true" />}
+              {index === 0 && <><Crown className={s.crown} aria-hidden="true" /><SeasonalHolly placement="crown" /></>}
               {user.avatarUrl ? <img src={user.avatarUrl} alt="" /> : <span>{user.initials}</span>}
               <b className={s.medal} aria-label={`Puesto ${index + 1}`}>{index + 1}</b>
             </div>

@@ -193,3 +193,11 @@ Estado de activación: integración preparada en la rama `codex/supabase-backend
 ### Validación de reposición diaria
 
 `supabase/tests/daily_packs.sql` verifica con transacciones revertidas el inicio del ciclo, aperturas sin reinicio, reposición, límite de tres, tiempo sin conexión e idempotencia. La migración `20261125233525_daily_pack_refill.sql` guarda el próximo plazo en la membresía; el servidor reconcilia el saldo al consultar o abrir sobres, sin depender del reloj del teléfono ni de una tarea programada.
+
+### Temas estacionales
+
+Cambiar `ACTIVE_THEME` en `src/theme/themeConfig.ts` a `'navidad'` o `'default'` y volver a compilar/publicar. Obsidiana (`default`) conserva el fondo original y no renderiza decoraciones ni reserva espacio para la etiqueta.
+
+`src/ui/themes.css` contiene únicamente tokens de fondo y de los adornos estacionales. El plugin de Vite fija `data-theme` en el HTML inicial antes del primer render; React usa `ThemeProvider` para mantener las decoraciones sincronizadas. `resolveTheme` valida los valores y usa `default` ante valores desconocidos, preparado para una futura configuración remota sin integrar Supabase todavía.
+
+La validación incluyó las tres pestañas en ambos temas a 320, 360, 390 y 430 px, sin desbordamiento horizontal y conservando la navegación. Los adornos SVG son estáticos, decorativos y no interceptan eventos. `themeConfig.test.tsx` comprueba el fallback y la eliminación completa del DOM estacional al cambiar a Obsidiana.

@@ -7,13 +7,8 @@
   background: #210c3a url("/figma/5b3a3.svg") center/100% 100% fixed;
 }
 .collectionCanvas {
-  background-color: #0e0d13;
-  background-image: radial-gradient(
-    ellipse 80% 35% at 50% 0%,
-    rgba(88, 44, 130, 0.32) 0%,
-    rgba(42, 22, 66, 0.12) 45%,
-    transparent 80%
-  );
+  background-color: var(--canvas-base);
+  background-image: var(--canvas-glow);
   background-repeat: no-repeat;
   background-attachment: scroll;
 }
@@ -1279,3 +1274,7 @@
 }
 
 .logout { display:flex; align-items:center; justify-content:center; gap:8px; padding:12px; color:var(--text, #fff); background:transparent; border:0; cursor:pointer; }
+
+.seasonalTitle { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.seasonalCanvas > main { position: relative; z-index: 1; }
+.seasonalPackPanel { position: relative; }

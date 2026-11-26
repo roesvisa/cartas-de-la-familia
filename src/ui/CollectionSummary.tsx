@@ -1,4 +1,5 @@
 import { Trophy } from "lucide-react";
+import { SeasonalHolly } from "./SeasonalDecorations";
 import s from "./CollectionSummary.module.css";
 
 type Props = {
@@ -14,6 +15,7 @@ export function CollectionSummary({ unique, capacity, ownedTotal, rank, onRankin
   const home = rank !== undefined;
   return (
     <div className={`${s.panel} ${home ? s.home : s.collection}`}>
+      <SeasonalHolly />
       <div className={s.metric}>
         {home && <img src="./figma/decb2.svg" alt="" />}
         <div>
