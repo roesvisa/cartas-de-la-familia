@@ -19,7 +19,7 @@ begin
  if (select count(*) from public.packs where status='available')<>2 then raise exception 'Incorrect remaining packs'; end if;
  snap:=public.collection_snapshot('familia-2026');
  if jsonb_array_length(snap->'inventories')<>1 then raise exception 'Private inventories leaked'; end if;
- if jsonb_array_length(snap->'leaderboard')<>2 then raise exception 'Shared ranking missing'; end if;
+ if not (snap->'leaderboard' @> '[{"id":"00000000-0000-4000-8000-000000000001"},{"id":"00000000-0000-4000-8000-000000000002"}]'::jsonb) then raise exception 'Shared ranking missing'; end if;
  begin
   update public.inventory set quantity=999;
   raise exception 'Client could change inventory';
