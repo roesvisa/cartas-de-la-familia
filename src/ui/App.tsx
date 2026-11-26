@@ -3,8 +3,6 @@ import {
   Search,
   LockKeyhole,
   CalendarDays,
-  UserRound,
-  LogOut,
 } from "lucide-react";
 import type { CollectionRepository } from "../data/repository";
 import { COLLECTION_ID } from "../data/fixtures";
@@ -28,8 +26,10 @@ import { PackCountdown } from "./PackCountdown";
 import { PackReveal } from "./PackReveal";
 import { RankingBoard } from "./RankingBoard";
 import { CollectionSummary } from "./CollectionSummary";
+import { ProfileMenu } from "./ProfileMenu";
+import type { ProfileAuth } from "../application/profileAuth";
 import s from "./App.module.css";
-export function App({ repository, authenticated = false, onSignOut }: { repository: CollectionRepository; authenticated?: boolean; onSignOut?: () => void }) {
+export function App({ repository, authenticated = false, onSignOut, profileAuth }: { repository: CollectionRepository; authenticated?: boolean; onSignOut?: () => Promise<void>; profileAuth?: ProfileAuth }) {
   const [session, setSession] = useState<"welcome" | "login" | "signed">(
     authenticated ? "signed" : "welcome",
   );
@@ -145,7 +145,7 @@ export function App({ repository, authenticated = false, onSignOut }: { reposito
           <div className={s.status} role="alert">
             <p>{model.error}</p>
             <Button onClick={model.reload}>Reintentar</Button>
-            {onSignOut && <button type="button" onClick={onSignOut} className={s.logout}>Cerrar sesión</button>}
+            {onSignOut && <button type="button" onClick={() => { void onSignOut().catch(() => {}); }} className={s.logout}>Cerrar sesión</button>}
           </div>
         ) : model.revealed.length && openingPhase !== "opening" ? (
           <PackReveal
@@ -206,12 +206,8 @@ export function App({ repository, authenticated = false, onSignOut }: { reposito
               <section className={s.home}>
                 <header className={s.homeHeader}>
                   <Logo />
-                  <span
-                    className={s.profile}
-                    aria-label={`Perfil de ${data.user.name}`}
-                  >
-                    <UserRound />
-                  </span>
+                  <ProfileMenu user={data.user} triggerClassName={s.profile} auth={profileAuth}
+                    onSignOut={onSignOut ?? (async () => setSession("login"))} />
                   <img className={s.ghostCards} src="./figma/4b57a.svg" alt="" />
                   <h1>¡Hola, {data.user.name}!</h1>
                 </header>
@@ -262,7 +258,6 @@ export function App({ repository, authenticated = false, onSignOut }: { reposito
                     </p>
                   )}
                 </section>
-                {onSignOut && <button type="button" onClick={onSignOut} className={s.logout}><LogOut size={18} /> Cerrar sesión</button>}
               </section>
             )}
             {page === "album" && (

@@ -5,9 +5,10 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 const auth = vi.hoisted(() => ({
  listener: undefined as undefined | ((event:string, session:unknown)=>void),
  unsubscribe:vi.fn(),
+ signOut:vi.fn().mockResolvedValue({error:null}),
 }));
-vi.mock('../data/supabaseClient', () => ({supabase:{auth:{onAuthStateChange:vi.fn(callback=>{auth.listener=callback;return {data:{subscription:{unsubscribe:auth.unsubscribe}}};})}}}));
-vi.mock('./App',()=>({App:()=> <div>Inventario privado</div>}));
+vi.mock('../data/supabaseClient', () => ({supabase:{auth:{signOut:auth.signOut,onAuthStateChange:vi.fn(callback=>{auth.listener=callback;return {data:{subscription:{unsubscribe:auth.unsubscribe}}};})}}}));
+vi.mock('./App',()=>({App:({onSignOut}:{onSignOut:()=>Promise<void>})=> <div>Inventario privado<button onClick={()=>void onSignOut().catch(()=>{})}>Salir de prueba</button></div>}));
 import { ConnectedApp } from './ConnectedApp';
 let root:Root, element:HTMLDivElement;
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true}); element=document.createElement('div'); document.body.append(element); root=createRoot(element);act(()=>root.render(<ConnectedApp/>));});
@@ -24,4 +25,18 @@ it('removes private UI on session loss and never offers demo credentials',()=>{
  expect(element.textContent).not.toContain('Inventario privado');
  expect(element.textContent).toContain('Iniciar sesión');
  expect(element.textContent).not.toContain('familia123');
+});
+
+it('signs out through Supabase and shows Login after success',async()=>{
+ act(()=>auth.listener?.('SIGNED_IN',{user:{id:'one'}}));
+ await act(async()=>element.querySelector<HTMLButtonElement>('button')!.click());
+ expect(auth.signOut).toHaveBeenCalledWith({scope:'local'});
+ expect(element.textContent).toContain('Iniciar sesión');
+ expect(element.textContent).not.toContain('Inventario privado');
+});
+it('retains the authenticated view if signout fails',async()=>{
+ auth.signOut.mockResolvedValueOnce({error:new Error('offline')});
+ act(()=>auth.listener?.('SIGNED_IN',{user:{id:'one'}}));
+ await act(async()=>element.querySelector<HTMLButtonElement>('button')!.click());
+ expect(element.textContent).toContain('Inventario privado');
 });

@@ -6,6 +6,8 @@ import { App } from './App';
 import { Login, Welcome } from './AuthScreens';
 import { Button, Title } from './Components';
 import s from './App.module.css';
+import { createProfileAuth } from '../data/profileAuth';
+const profileAuth = createProfileAuth(supabase);
 const repository = new SupabaseCollectionRepository(supabase);
 const invitation = ['invite', 'recovery'].includes(new URLSearchParams(location.hash.slice(1)).get('type') ?? '');
 export function ConnectedApp() {
@@ -28,10 +30,12 @@ export function ConnectedApp() {
   async function signOut() {
     setError('');
     const { error } = await supabase.auth.signOut({ scope: 'local' });
-    if (error) setError('No se pudo cerrar la sesión. Inténtalo de nuevo.');
+    if (error) throw new Error('No se pudo cerrar la sesión. Inténtalo de nuevo.');
+    setSession(null);
+    setEnter(true);
   }
   if (loading) return <div className={s.app}><p className={s.status} role="status">Cargando tu sesión…</p></div>;
-  if (session && !setPassword) return <><App key={session.user.id} repository={repository} authenticated onSignOut={() => void signOut()} />{error && <p role="alert">{error}</p>}</>;
+  if (session && !setPassword) return <><App key={session.user.id} repository={repository} authenticated onSignOut={signOut} profileAuth={profileAuth} />{error && <p role="alert">{error}</p>}</>;
   return <div className={s.app}><main className={s.main}>
     {session && setPassword ? <section className={s.login}>
       <Title>Tu contraseña</Title>
