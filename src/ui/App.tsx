@@ -121,7 +121,7 @@ export function App({ repository, authenticated = false, onSignOut }: { reposito
         c.title.toLocaleLowerCase("es").includes(query.toLocaleLowerCase("es")),
     ) ?? [];
   return (
-    <div className={s.app}>
+    <div className={`${s.app} ${session === "signed" && !openingPage && !model.revealed.length && !detail ? s.collectionCanvas : ""}`}>
       {openingPhase !== "idle" && (
         <div
           aria-hidden="true"

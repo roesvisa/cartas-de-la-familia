@@ -6,6 +6,17 @@
   min-height: 100dvh;
   background: #210c3a url("/figma/5b3a3.svg") center/100% 100% fixed;
 }
+.collectionCanvas {
+  background-color: #0e0d13;
+  background-image: radial-gradient(
+    ellipse 80% 35% at 50% 0%,
+    rgba(88, 44, 130, 0.32) 0%,
+    rgba(42, 22, 66, 0.12) 45%,
+    transparent 80%
+  );
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
 .main {
   min-height: 100dvh;
   outline: none;
@@ -189,7 +200,8 @@
   display: flex;
   gap: 7px;
   justify-content: space-between;
-  background: var(--color-cream);
+  background: #16131e;
+  border-top: 1px solid rgba(168, 139, 212, 0.14);
   border-radius: 26px 26px 0 0;
 }
 .nav button {
@@ -202,14 +214,14 @@
   justify-content: center;
   border-radius: 20px;
   background: none;
-  color: #614a7c;
+  color: #b8aec8;
   font-size: 14px;
   font-weight: 600;
   min-height: 63px;
 }
 .nav button[aria-current] {
-  background: #ede0f8;
-  color: var(--color-violet);
+  background: #2a2238;
+  color: #f3effa;
 }
 .home {
   padding: 0 16px;
