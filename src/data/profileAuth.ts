@@ -5,6 +5,11 @@ export function createProfileAuth(client: SupabaseClient): ProfileAuth {
   return {
     async changePassword({ password, nonce, currentPassword }) {
       try {
+        if (!currentPassword) return { error: 'Ingresa tu contraseña actual.' };
+        const { data, error: userError } = await client.auth.getUser();
+        if (userError || !data.user?.email) return { error: 'Tu sesión ha vencido. Vuelve a iniciar sesión.' };
+        const { error: verificationError } = await client.auth.signInWithPassword({ email: data.user.email, password: currentPassword });
+        if (verificationError) return { error: verificationError.code === 'invalid_credentials' ? 'La contraseña actual no es correcta.' : 'No pudimos verificar tu contraseña actual. Inténtalo de nuevo.' };
         const { error } = await client.auth.updateUser({ password,
           ...(nonce ? { nonce } : {}),
           ...(currentPassword ? { current_password: currentPassword } : {}),

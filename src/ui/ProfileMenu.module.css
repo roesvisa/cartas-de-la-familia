@@ -47,3 +47,7 @@
 .dialog > .primary { margin-top: 20px; }
 .secondary { background: #2a2238; color: #d7cbe5; }
 .dialog button:disabled { opacity: .6; }
+
+.passwordField { position: relative; margin-top: 8px; }
+.passwordField input { padding-right: 48px; }
+.visibility { position: absolute; right: 1px; top: 0; width: 44px; height: 100%; min-height: 44px; display: grid; place-items: center; background: transparent; color: #b8aec8; border-radius: 10px; }
