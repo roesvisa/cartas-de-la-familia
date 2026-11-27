@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { useTheme } from '../theme/ThemeProvider';
 import s from './SeasonalDecorations.module.css';
 function Snowflake() {
@@ -12,14 +13,41 @@ export function SeasonalBadge() {
   return <span className={s.badge} data-seasonal="badge"><Snowflake />Navidad</span>;
 }
 export function SeasonalHolly({ placement = 'summary' }: { placement?: 'summary' | 'crown' }) {
+  const id = useId().replace(/:/g, '');
   if (useTheme() !== 'navidad') return null;
-  return <svg className={`${s.holly} ${s[placement]}`} data-seasonal="holly" viewBox="0 0 40 24" aria-hidden="true" focusable="false">
-    <path fill="var(--seasonal-pine)" d="M19 16C12 17 9 11 2 12L5 8 2 3 9 4 12 1C13 8 21 8 19 16ZM21 16C28 17 31 11 38 12L35 8 38 3 31 4 28 1C27 8 19 8 21 16Z" />
-    <path d="M6 6l13 10M34 6L21 16" fill="none" stroke="#749479" strokeWidth=".7" />
-    <g fill="var(--seasonal-crimson)"><circle cx="17" cy="17" r="3"/><circle cx="23" cy="17" r="3"/><circle cx="20" cy="21" r="3"/></g>
+  return <svg className={`${s.holly} ${s[placement]}`} data-seasonal="holly" viewBox="0 0 72 64" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id={`${id}-leaf`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#a1b84a"/><stop offset=".45" stopColor="#4c7e25"/><stop offset="1" stopColor="#173d19"/></linearGradient>
+      <radialGradient id={`${id}-berry`} cx=".3" cy=".25" r=".8"><stop stopColor="#ff8d65"/><stop offset=".25" stopColor="#f44329"/><stop offset=".62" stopColor="#c91f16"/><stop offset="1" stopColor="#710c13"/></radialGradient>
+    </defs>
+    <g fill={`url(#${id}-leaf)`} stroke="#35581e" strokeWidth=".7">
+      <path d="M37 29C24 30 18 23 8 22L10 16 2 9 13 10 16 3 23 9 30 8 29 16 36 19Z"/>
+      <path d="M40 32L49 29 52 36 61 34 60 43 69 49 61 51 64 61 54 56 48 61 47 51 39 48 43 42Z"/>
+      <path d="M37 31L30 27 30 19 36 20 40 12 43 18 49 17 47 25 50 29 43 32Z"/>
+    </g>
+    <g fill="none" stroke="#b5cb69" strokeWidth=".8" opacity=".65"><path d="M9 11L36 28M19 14l1 7M27 18l-1 7M43 35l17 21M49 43l8-2M51 47l-1 7M40 29l3-10"/></g>
+    <g fill={`url(#${id}-berry)`} stroke="#941a13" strokeWidth=".6"><circle cx="39" cy="26" r="7"/><circle cx="32" cy="36" r="7.5"/><circle cx="46" cy="37" r="7.5"/></g>
+    <g fill="#ffccac" opacity=".8"><ellipse cx="37" cy="23" rx="2" ry="1.3"/><ellipse cx="30" cy="33" rx="2" ry="1.3"/><ellipse cx="44" cy="34" rx="2" ry="1.3"/></g>
   </svg>;
 }
 export function SeasonalRibbon() {
+  const id = useId().replace(/:/g, '');
   if (useTheme() !== 'navidad') return null;
-  return <div className={s.ribbons} data-seasonal="ribbons" aria-hidden="true">{['left','right'].map(side=><svg key={side} viewBox="0 0 24 30" focusable="false"><path fill="var(--seasonal-crimson)" d="M10 12L4 28l6-3 3 4 2-17M11 11C-3 10 1-2 7 4l5 6C16-3 28 2 20 10l-7 3Z"/><path d="M7 5l5 7 7-6M12 14l-3 10" stroke="var(--seasonal-gold)" strokeWidth="1" fill="none"/><circle cx="12" cy="12" r="2.5" fill="var(--seasonal-gold)"/></svg>)}</div>;
+  return <div className={s.ribbons} data-seasonal="ribbons" aria-hidden="true">
+    <svg className={s.bow} viewBox="0 0 80 94" focusable="false">
+      <defs><linearGradient id={`${id}-ribbon`} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#ff6540"/><stop offset=".3" stopColor="#d32c24"/><stop offset=".62" stopColor="#83101d"/><stop offset="1" stopColor="#eb482b"/></linearGradient></defs>
+      <g fill={`url(#${id}-ribbon)`} stroke="#e7ae46" strokeWidth="1.1" strokeLinejoin="round">
+        <path d="M8 90L9 70 63 9 78 9Z"/>
+        <path d="M30 36L16 72 28 66 36 74 40 39Z"/>
+        <path d="M32 34L53 60 52 48 67 49 39 29Z"/>
+        <path d="M31 34C14 27 20 2 29 6 40 10 44 25 36 35Z"/>
+        <path d="M33 32C42 12 63 9 64 18 63 28 46 39 36 38Z"/>
+        <path d="M31 35C13 29 1 35 6 44 11 53 25 50 34 39Z"/>
+        <path d="M33 36C44 33 58 36 60 43L45 47 36 40Z"/>
+      </g>
+      <g fill="none" stroke="#ff9d61" strokeWidth="1" opacity=".8"><path d="M26 10Q24 24 33 31M59 18Q46 20 38 33M9 40Q22 35 29 38M23 61l10-20"/></g>
+      <ellipse cx="34" cy="36" rx="6" ry="7" fill={`url(#${id}-ribbon)`} stroke="#e7ae46" strokeWidth="1"/>
+    </svg>
+    <svg className={s.cornerRibbon} viewBox="0 0 72 62" focusable="false"><path d="M0 0H17L72 47V62Z" fill={`url(#${id}-ribbon)`}/><path d="M2 1L71 60M16 1L71 48" stroke="#f3cb64" strokeWidth="1.5" fill="none"/><path d="M8 1L71 54" stroke="#ff8760" strokeOpacity=".6" fill="none"/></svg>
+  </div>;
 }

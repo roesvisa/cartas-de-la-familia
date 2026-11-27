@@ -1,17 +1,22 @@
 .snow { position: absolute; inset: 0 0 auto; height: 220px; overflow: hidden; pointer-events: none; z-index: 0; color: #e4e9df; }
-.snow span { position: absolute; width: 12px; height: 12px; opacity: .14; }
-.snow span:nth-child(1) { left: 3%; top: 13px; width: 9px; }
-.snow span:nth-child(2) { right: 22%; top: 27px; }
-.snow span:nth-child(3) { left: 41%; top: 6px; width: 10px; }
-.snow span:nth-child(4) { right: 2%; top: 104px; width: 9px; }
-.snow span:nth-child(5) { left: 1%; top: 183px; }
-.snow span:nth-child(6) { right: 4%; top: 210px; width: 8px; height: 8px; }
+.snow span { position: absolute; width: 14px; height: 14px; opacity: .32; }
+.snow span:nth-child(1) { left: 3%; top: 19px; width: 12px; height: 12px; }
+.snow span:nth-child(2) { right: 33%; top: 10px; width: 30px; height: 30px; opacity: .55; }
+.snow span:nth-child(3) { left: 43%; top: 24px; width: 13px; height: 13px; }
+.snow span:nth-child(4) { right: 7%; top: 92px; width: 25px; height: 25px; opacity: .45; }
+.snow span:nth-child(5) { left: 2%; top: 139px; width: 23px; height: 23px; opacity: .4; }
+.snow span:nth-child(6) { right: 22%; top: 53px; width: 10px; height: 10px; }
 .snow svg { width: 100%; height: 100%; }
 .badge { display: inline-flex; flex: 0 0 auto; align-items: center; gap: 4px; padding: 4px 7px; border-radius: 20px; font-size: 11px; line-height: 1.3; color: var(--seasonal-gold); background: var(--seasonal-badge-bg); border: 1px solid var(--seasonal-badge-border); pointer-events: none; }
 .badge svg { width: 12px; height: 12px; }
-.holly { position: absolute; pointer-events: none; }
-.summary { width: 18px; height: 10px; right: 18px; top: 0; }
-.crown { width: 16px; height: 12px; left: calc(50% + 13px); top: -24px; }
-.ribbons { position: absolute; inset: 5px 9px auto; height: 24px; display: flex; justify-content: space-between; pointer-events: none; }
-.ribbons svg { width: 18px; height: 24px; }
-.ribbons svg:last-child { transform: scaleX(-1); }
+.holly { position: absolute; pointer-events: none; filter: drop-shadow(0 2px 2px #0006); }
+.summary { width: 54px; height: 48px; right: -9px; top: -20px; }
+.crown { width: 44px; height: 40px; left: calc(50% + 16px); top: -28px; }
+.ribbons { position: absolute; inset: 0 0 auto; height: 76px; pointer-events: none; }
+.bow { position: absolute; width: 70px; height: 82px; left: -9px; top: -10px; filter: drop-shadow(0 2px 2px #0008); }
+.cornerRibbon { position: absolute; width: 66px; height: 57px; right: 0; top: 0; border-top-right-radius: 24px; }
+@media (max-width: 350px) {
+  .summary { width: 48px; height: 43px; top: -18px; }
+  .bow { width: 60px; height: 71px; }
+  .cornerRibbon { width: 48px; height: 42px; }
+}

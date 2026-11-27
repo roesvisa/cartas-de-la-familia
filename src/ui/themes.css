@@ -9,12 +9,9 @@
   );
 }
 [data-theme="navidad"] {
-  --canvas-glow: radial-gradient(
-    ellipse 85% 38% at 50% 0%,
-    rgba(22, 78, 56, 0.42) 0%,
-    rgba(120, 28, 42, 0.14) 48%,
-    transparent 82%
-  );
+  --canvas-glow:
+    radial-gradient(ellipse 75% 26% at 43% 0%, rgba(20, 110, 57, .72) 0%, rgba(17, 83, 45, .36) 46%, transparent 85%),
+    radial-gradient(ellipse 90% 38% at 65% 12%, rgba(133, 24, 35, .58) 0%, rgba(94, 16, 31, .28) 48%, transparent 88%);
   --seasonal-gold: #f3d078;
   --seasonal-pine: #24543f;
   --seasonal-crimson: #8a2030;
