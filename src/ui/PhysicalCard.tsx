@@ -5,7 +5,7 @@ import { cardMotion, visualRarity } from './cardVisualConfig';
 import { RarityEffects } from './RarityEffects';
 import s from './PhysicalCard.module.css';
 export function PhysicalCard({card, compact=false, quantity=1, onOpen}: {card:Card;compact?:boolean;quantity?:number;onOpen?:()=>void}) {
-  const motion=useCardMotion();
+  const motion=useCardMotion({ allowScroll: compact });
   const [failed,setFailed]=useState(false);
   return <button type="button" ref={motion.ref} className={`${s.scene} ${compact?s.compact:s.detail}`} data-rear={motion.rear}
     style={{'--flip-duration':`${cardMotion.flipMs}ms`,'--return-duration':`${cardMotion.returnMs}ms`} as CSSProperties}

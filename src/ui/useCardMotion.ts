@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent, type KeyboardEvent } from 'react';
 import { cardMotion, cardFinish, gestureAngles } from './cardVisualConfig';
 // Only the active card schedules frames. React updates only when its face changes.
-export function useCardMotion() {
+export function useCardMotion({ allowScroll = true } = {}) {
   const ref = useRef<HTMLButtonElement>(null);
   const base = useRef(0), busy = useRef(false), moved = useRef(false);
   const gesture = useRef<{id:number;x:number;y:number;width:number} | null>(null);
@@ -15,7 +15,7 @@ export function useCardMotion() {
     const offset = y - base.current;
     el.style.setProperty('--light-x', `${50 + Math.sin(offset * Math.PI / 180) * cardFinish.reflectionTravel}%`);
     el.style.setProperty('--light-y', `${50 + x * 4}%`);
-    el.style.setProperty('--foil-strength', `${active ? cardFinish.foilRest + Math.min(Math.abs(offset)/cardMotion.threshold,1)*(cardFinish.foilActive-cardFinish.foilRest) : cardFinish.foilRest}`);
+    el.style.setProperty('--foil-strength', `${active ? cardFinish.foilActive : cardFinish.foilRest}`);
   }
   function settle() {
     cancelAnimationFrame(raf.current); gesture.current = null;
@@ -43,10 +43,10 @@ export function useCardMotion() {
     onPointerMove(e: PointerEvent<HTMLButtonElement>) {
       const g = gesture.current; if (!g || g.id !== e.pointerId || busy.current) return;
       const dx=e.clientX-g.x, dy=e.clientY-g.y;
-      if (Math.hypot(dx,dy)<6) return;
+      if (Math.hypot(dx,dy)<3) return;
       moved.current=true;
       // Leave vertical scrolling to the browser; capture only a horizontal gesture.
-      if (Math.abs(dy)>Math.abs(dx) && e.currentTarget.dataset.motion !== 'drag') { settle(); return; }
+      if (allowScroll && Math.abs(dy)>Math.abs(dx) && e.currentTarget.dataset.motion !== 'drag') { settle(); return; }
       if (!e.currentTarget.hasPointerCapture?.(e.pointerId)) e.currentTarget.setPointerCapture(e.pointerId);
       const angles=gestureAngles(dx,dy,g.width);
       if (Math.abs(angles.y)>=cardMotion.threshold) { flip(Math.sign(angles.y)); return; }

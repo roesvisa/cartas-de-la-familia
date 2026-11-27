@@ -1,6 +1,6 @@
 /** Presentation only: never changes category, inventory or draw probabilities. */
-export const cardMotion = { sensitivity: .62, threshold: 90, maxTilt: 6, flipMs: 580, returnMs: 350 };
-export const cardFinish = { foilRest: .12, foilActive: .22, reflectionTravel: 35 };
+export const cardMotion = { sensitivity: .45, threshold: 90, maxTilt: 6, flipMs: 580, returnMs: 350 };
+export const cardFinish = { foilRest: .4, foilActive: .8, reflectionTravel: 35 };
 export function visualRarity(category: string): 'common' | 'rare' | 'special' {
   const value = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
   const mapping: Record<string, 'common' | 'rare' | 'special'> = { comun: 'common', common: 'common', rara: 'rare', rare: 'rare', especial: 'special', special: 'special' };
