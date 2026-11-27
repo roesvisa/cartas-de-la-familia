@@ -316,7 +316,10 @@
   margin: 0;
   align-items: center;
 }
-.packSlots > img {
+.availablePack { width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 8px; }
+.availablePack:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; }
+.availablePack > img {
+  display: block;
   width: 100%;
   height: auto;
   max-height: clamp(90px, 20dvh, 126px);

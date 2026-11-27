@@ -231,11 +231,9 @@ export function App({ repository, authenticated = false, onSignOut, profileAuth 
                   <div className={s.packSlots}>
                     {[0, 1, 2].map((i) =>
                       i < available ? (
-                        <img
-                          key={i}
-                          src="./figma/1bbb6.png"
-                          alt={`Sobre disponible ${i + 1}`}
-                        />
+                        <button key={i} type="button" className={s.availablePack} onClick={start} aria-label={`Abrir sobre disponible ${i + 1}`}>
+                          <img src="./figma/1bbb6.png" alt="" />
+                        </button>
                       ) : (
                         <div
                           key={i}

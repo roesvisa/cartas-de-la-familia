@@ -67,7 +67,7 @@ export function FlipCard({ card, index, revealed, onReveal }: {
         finish();
       }}>
       <span className={s.rotor} data-dragging={dragging} style={{transform: `rotateY(${revealed ? 180 : angle}deg)`}}>
-        <span className={s.back} aria-hidden="true"><img src="./cards/family-card-back.png" alt="" draggable={false} /></span>
+        <span className={s.back} aria-hidden="true"><img src="./cards/optimized/family-card-back.png" alt="" draggable={false} /></span>
         <span className={s.front} aria-hidden="true"><img src={card.imageUrl} alt="" draggable={false} /></span>
       </span>
     </button>
