@@ -15,6 +15,7 @@ export function useCardMotion({ allowScroll = true } = {}) {
     const offset = y - base.current;
     el.style.setProperty('--light-x', `${50 + Math.sin(offset * Math.PI / 180) * cardFinish.reflectionTravel}%`);
     el.style.setProperty('--light-y', `${50 + x * 4}%`);
+    el.style.setProperty('--rim-angle', `${offset * 4 + x * 12}deg`);
     el.style.setProperty('--foil-strength', `${active ? cardFinish.foilActive : cardFinish.foilRest}`);
   }
   function settle() {

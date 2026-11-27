@@ -74,3 +74,10 @@ it('tracks vertical touch movement in detail and uses 80% foil while dragging',(
  expect(HTMLElement.prototype.setPointerCapture).toHaveBeenCalled();
  pointer('pointerup');expect(button().style.getPropertyValue('--foil-strength')).toBe('0.4');
 });
+
+it('moves the metallic rim and iridescent light with touch, then resets',()=>{
+ render('Especial');pointer('pointerdown');pointer('pointermove',30,10);
+ expect(button().style.getPropertyValue('--rim-angle')).not.toBe('0deg');
+ expect(button().style.getPropertyValue('--light-x')).not.toBe('50%');
+ pointer('pointerup');expect(button().style.getPropertyValue('--rim-angle')).toBe('0deg');
+});
