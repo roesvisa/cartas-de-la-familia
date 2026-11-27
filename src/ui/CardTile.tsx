@@ -1,4 +1,5 @@
 import { useId, useState } from "react";
+import { PhysicalCard } from './PhysicalCard';
 import locked from "./LockedCard.module.css";
 import type { Card } from "../domain/models";
 import s from "./App.module.css";
@@ -11,6 +12,7 @@ export function CardTile({
   quantity: number;
   onClick?: () => void;
 }) {
+  if (quantity) return <PhysicalCard key={card.id} card={card} quantity={quantity} compact onOpen={onClick}/>;
   return (
     <button
       className={quantity ? s.card : `${s.card} ${locked.slot}`}

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Card } from "../domain/models";
 import { tearProgress } from "../application/swipe";
+import { RarityEffects } from './RarityEffects';
 import s from "./FlipCard.module.css";
 
 export function FlipCard({ card, index, revealed, onReveal }: {
@@ -68,7 +69,7 @@ export function FlipCard({ card, index, revealed, onReveal }: {
       }}>
       <span className={s.rotor} data-dragging={dragging} style={{transform: `rotateY(${revealed ? 180 : angle}deg)`}}>
         <span className={s.back} aria-hidden="true"><img src="./cards/optimized/family-card-back.png" alt="" draggable={false} /></span>
-        <span className={s.front} aria-hidden="true"><img src={card.imageUrl} alt="" draggable={false} /></span>
+        <span className={s.front} aria-hidden="true"><img src={card.imageUrl} alt="" draggable={false} /><RarityEffects category={card.category}/></span>
       </span>
     </button>
   );

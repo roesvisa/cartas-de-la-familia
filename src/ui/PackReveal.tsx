@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import type { RevealedCard } from "../domain/models";
 import { Button, Title } from "./Components";
 import { FlipCard } from "./FlipCard";
+import finish from './PhysicalCard.module.css';
+import { RarityEffects } from './RarityEffects';
 import s from "./App.module.css";
 export function PackReveal({
   cards,
@@ -63,10 +65,11 @@ export function PackReveal({
             onClick={() => setLarge(null)}
             aria-label="Cerrar carta y continuar"
           >
-            <img
+            <span className={finish.packArtwork}><img
               src={cards[large].card.imageUrl}
               alt={cards[large].card.title}
             />
+            <RarityEffects category={cards[large].card.category}/></span>
             <span>
               {cards[large].duplicate ? "Repetida" : "¡Nueva!"} · Toca para
               continuar
