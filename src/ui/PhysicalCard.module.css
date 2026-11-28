@@ -7,6 +7,8 @@
   perspective:var(--perspective);touch-action:pan-y;user-select:none;-webkit-touch-callout:none;
   min-width:0;cursor:pointer;
 }
+/* Route touch hit-testing to the stable button, never its rotating faces. */
+.scene * { pointer-events:none; }
 .compact { width:100%;aspect-ratio:110/155;--radius:10px;--border:2px;--inset:4px;--image-radius:5px; }
 .detail { touch-action:none; width:min(310px,100%,36dvh);aspect-ratio:3/4;margin:auto;--radius:28px;--border:4px;--inset:5px;--image-radius:18px; }
 .scene:focus-visible { outline:2px solid #e3b8fa;outline-offset:5px;border-radius:var(--radius); }

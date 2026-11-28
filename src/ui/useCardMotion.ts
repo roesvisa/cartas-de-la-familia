@@ -40,6 +40,7 @@ export function useCardMotion({ allowScroll = true } = {}) {
       if (busy.current || gesture.current || !e.isPrimary || e.button !== 0) return;
       moved.current = false;
       gesture.current = {id:e.pointerId,x:e.clientX,y:e.clientY,width:e.currentTarget.getBoundingClientRect().width};
+      if (!allowScroll) e.currentTarget.setPointerCapture(e.pointerId);
     },
     onPointerMove(e: PointerEvent<HTMLButtonElement>) {
       const g = gesture.current; if (!g || g.id !== e.pointerId || busy.current) return;
@@ -54,7 +55,18 @@ export function useCardMotion({ allowScroll = true } = {}) {
       e.currentTarget.dataset.motion='drag'; cancelAnimationFrame(raf.current);
       raf.current=requestAnimationFrame(()=>paint(base.current+angles.y,angles.x,true));
     },
-    onPointerUp: settle, onPointerCancel: settle, onLostPointerCapture: settle,
+    onPointerUp(e: PointerEvent<HTMLButtonElement>) {
+      if (gesture.current?.id === e.pointerId) settle();
+    },
+    onPointerCancel(e: PointerEvent<HTMLButtonElement>) {
+      if (gesture.current?.id === e.pointerId) settle();
+    },
+    onLostPointerCapture(e: PointerEvent<HTMLButtonElement>) {
+      // Touch implicitly captures descendants. Transferring that capture bubbles
+      // a lost event from the old target; it is not the end of our gesture.
+      if (e.target !== e.currentTarget || gesture.current?.id !== e.pointerId) return;
+      if (!e.currentTarget.hasPointerCapture?.(e.pointerId)) settle();
+    },
     onKeyDown(e: KeyboardEvent<HTMLButtonElement>) {
       if (['ArrowLeft','ArrowRight',' '].includes(e.key)) { e.preventDefault(); if (!e.repeat) flip(e.key==='ArrowLeft'?-1:1); }
       if (e.key==='Escape') settle();

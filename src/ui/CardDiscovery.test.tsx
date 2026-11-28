@@ -81,3 +81,28 @@ it('moves the metallic rim and iridescent light with touch, then resets',()=>{
  expect(button().style.getPropertyValue('--light-x')).not.toBe('50%');
  pointer('pointerup');expect(button().style.getPropertyValue('--rim-angle')).toBe('0deg');
 });
+
+it('does not cancel touch when implicit capture transfers from a card face to the button',()=>{
+ pointer('pointerdown');pointer('pointermove',10);
+ const lost=new Event('lostpointercapture',{bubbles:true});
+ Object.defineProperty(lost,'pointerId',{value:1});
+ act(()=>host.querySelector('[data-rarity]')!.dispatchEvent(lost));
+ pointer('pointermove',60,5);
+ expect(button().style.getPropertyValue('--turn')).toBe('40deg');
+ pointer('pointermove',135);
+ expect(button().dataset.rear).toBe('true');
+});
+
+it('resets on actual capture loss and accepts the next touch',()=>{
+ pointer('pointerdown');pointer('pointermove',60);
+ pointer('lostpointercapture');
+ expect(button().style.getPropertyValue('--turn')).toBe('0deg');
+ pointer('pointerdown');pointer('pointermove',60);
+ expect(button().style.getPropertyValue('--turn')).toBe('40deg');
+});
+it('does not let a second finger cancel the active touch',()=>{
+ pointer('pointerdown');pointer('pointermove',30);
+ const cancel=new Event('pointercancel',{bubbles:true});Object.defineProperty(cancel,'pointerId',{value:2});
+ act(()=>button().dispatchEvent(cancel));pointer('pointermove',60);
+ expect(button().style.getPropertyValue('--turn')).toBe('40deg');
+});
