@@ -1,3 +1,4 @@
+import { ResourceImage } from './ResourceImage';
 import { Crown } from "lucide-react";
 import type { User } from "../domain/models";
 import { SeasonalHolly } from "./SeasonalDecorations";
@@ -12,7 +13,7 @@ export function RankingBoard({ rows, currentUserId }: { rows: RankedUser[]; curr
           <li key={user.id} value={index + 1} className={s.winner} data-place={index + 1} data-you={user.id === currentUserId}>
             <div className={s.portrait}>
               {index === 0 && <><Crown className={s.crown} aria-hidden="true" /><SeasonalHolly placement="crown" /></>}
-              {user.avatarUrl ? <img src={user.avatarUrl} alt="" /> : <span>{user.initials}</span>}
+              <ResourceImage src={user.avatarUrl} alt="" fallback={user.initials}/>
               <b className={s.medal} aria-label={`Puesto ${index + 1}`}>{index + 1}</b>
             </div>
             <strong className={s.name}>{user.name}</strong>
@@ -29,7 +30,7 @@ export function RankingBoard({ rows, currentUserId }: { rows: RankedUser[]; curr
           {rows.slice(3).map((user, index) => (
             <li key={user.id} value={index + 4} data-you={user.id === currentUserId}>
               <span className={s.position} aria-label={`Puesto ${index + 4}`}>{index + 4}</span>
-              {user.avatarUrl && <img src={user.avatarUrl} alt="" />}
+              <div style={{width:38,height:38,flexShrink:0}}><ResourceImage src={user.avatarUrl} alt="" fallback={user.initials}/></div>
               <strong>{user.name}{user.id === currentUserId && <small className={s.you}>Tú</small>}</strong>
               <span className={s.count}>{String(user.unique).padStart(2, "0")} cartas</span>
             </li>

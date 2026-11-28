@@ -1,3 +1,4 @@
+import { resolveImageUrl } from '../data/imageUrls';
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { KeyRound, LogOut } from 'lucide-react';
@@ -63,7 +64,7 @@ export function ProfileMenu({ user, triggerClassName, auth, onSignOut }: {
       onClick={() => { setError(''); setOpen(!open); }}
       onKeyDown={e => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); setOpen(true); } }}>
       {user.avatarUrl && failedAvatar !== user.avatarUrl
-        ? <img className={s.profilePhoto} src={user.avatarUrl} alt="" onError={() => setFailedAvatar(user.avatarUrl)} />
+        ? <img className={s.profilePhoto} src={resolveImageUrl(user.avatarUrl)} alt="" onError={() => setFailedAvatar(user.avatarUrl)} />
         : <span className={s.initials} aria-hidden="true">{initials}</span>}
     </button>
     {open && createPortal(<div ref={menu} className={s.panel} style={position} onBlur={e => {

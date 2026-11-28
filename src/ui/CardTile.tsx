@@ -1,3 +1,4 @@
+import { resolveImageUrl } from '../data/imageUrls';
 import { useId, useState } from "react";
 import { PhysicalCard } from './PhysicalCard';
 import locked from "./LockedCard.module.css";
@@ -21,7 +22,7 @@ export function CardTile({
       aria-label={`${card.title}, ${quantity ? `${quantity} copias` : "por descubrir"}`}
     >
       {quantity ? (
-        <img src={card.imageUrl} alt={card.title} />
+        <img src={resolveImageUrl(card.imageUrl)} alt={card.title} />
       ) : (
         <LockedArtwork key={`${card.id}:${card.imageUrl}`} card={card} />
       )}
@@ -47,7 +48,7 @@ function LockedArtwork({ card }: { card: Card }) {
           <feComposite in2="SourceGraphic" operator="in" />
         </filter></defs>
       </svg>
-      <img className={locked.shadow} src={card.imageUrl} alt="" aria-hidden="true"
+      <img className={locked.shadow} src={resolveImageUrl(card.imageUrl)} alt="" aria-hidden="true"
         loading="lazy" decoding="async" draggable={false}
         style={{ filter: `url(#${filterId})` }} onError={() => setFailed(true)} />
     </> : <svg className={locked.fallback} viewBox="0 0 100 140" aria-hidden="true" focusable="false">

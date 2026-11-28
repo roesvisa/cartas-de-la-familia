@@ -1,3 +1,4 @@
+import { ResourceImage } from './ResourceImage';
 import { useEffect, useRef, useState } from "react";
 import type { RevealedCard } from "../domain/models";
 import { Button, Title } from "./Components";
@@ -65,7 +66,7 @@ export function PackReveal({
             onClick={() => setLarge(null)}
             aria-label="Cerrar carta y continuar"
           >
-            <span className={finish.packArtwork}><img
+            <span className={finish.packArtwork}><ResourceImage
               src={cards[large].card.imageUrl}
               alt={cards[large].card.title}
             />

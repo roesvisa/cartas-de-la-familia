@@ -1,3 +1,4 @@
+import { ResourceImage } from './ResourceImage';
 import { useState, type CSSProperties } from 'react';
 import type { Card } from '../domain/models';
 import { useCardMotion } from './useCardMotion';
@@ -15,12 +16,12 @@ export function PhysicalCard({card, compact=false, quantity=1, onOpen}: {card:Ca
     onContextMenu={e=>e.preventDefault()} onDragStart={e=>e.preventDefault()}>
     <span className={s.tilt}><span className={s.flip}>
       <span className={`${s.face} ${s.illustrated}`} data-rarity={visualRarity(card.category)} aria-hidden={motion.rear}>
-        <img src={card.imageUrl} alt={`${card.title}, dibujo`} draggable={false}/>
+        <ResourceImage src={card.imageUrl} alt={`${card.title}, dibujo`} draggable={false}/>
         <RarityEffects category={card.category}/>
         {compact && quantity>1 && <small className={s.copies}>x{quantity}</small>}
       </span>
       <span className={`${s.face} ${s.realistic}`} aria-hidden={!motion.rear}>
-        {card.realisticImageUrl&&!failed ? <img src={card.realisticImageUrl} alt={`${card.title}, fotografía`} draggable={false} loading="lazy" style={{objectPosition:card.realisticImagePosition??'center'}} onError={()=>setFailed(true)}/> : <span className={s.missing}>Fotografía aún no disponible</span>}
+        {card.realisticImageUrl&&!failed ? <ResourceImage fallback="Fotografía aún no disponible" src={card.realisticImageUrl} alt={`${card.title}, fotografía`} draggable={false} loading="lazy" style={{objectPosition:card.realisticImagePosition??'center'}} onError={()=>setFailed(true)}/> : <span className={s.missing}>Fotografía aún no disponible</span>}
       </span>
     </span></span>
   </button>;
