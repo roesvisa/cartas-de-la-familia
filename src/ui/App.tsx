@@ -221,6 +221,7 @@ export function App({ repository, authenticated = false, onSignOut, profileAuth 
                   ownedTotal={stats.ownedTotal}
                   rank={stats.unique ? rows.findIndex((r) => r.id === data.user.id) + 1 : 0}
                   onRanking={() => navigate("ranking")}
+                  onCollection={() => navigate("album")}
                 />
                 <section className={`${s.packPanel} ${festive ? s.seasonalPackPanel : ""}`}>
                   <SeasonalRibbon />
@@ -245,13 +246,9 @@ export function App({ repository, authenticated = false, onSignOut, profileAuth 
                       ),
                     )}
                   </div>
-                  <Button onClick={start} disabled={!available}>
-                    {available
-                      ? available === 3
-                        ? "Abrir sobres"
-                        : "Abrir sobre"
-                      : "Sin sobres por abrir"}
-                  </Button>
+                  {available > 0 && <Button onClick={start}>
+                    {available === 3 ? "Abrir sobres" : "Abrir sobre"}
+                  </Button>}
                   {authenticated && available < 3 && data.nextPackAt && data.serverNow && (
                     <PackCountdown nextPackAt={data.nextPackAt} serverNow={data.serverNow} onReady={model.refresh} />
                   )}

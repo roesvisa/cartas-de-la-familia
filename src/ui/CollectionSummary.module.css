@@ -40,3 +40,5 @@
 }
 
 .metric > div, .ranking > div { min-width: 0; overflow-wrap: anywhere; }
+
+.collectionLink { background:none; color:inherit; border:0; padding:0; text-align:left; font:inherit; min-height:44px; }

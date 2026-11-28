@@ -8,21 +8,23 @@ type Props = {
   ownedTotal: number;
   rank?: number;
   onRanking?: () => void;
+  onCollection?: () => void;
 };
 const count = (value: number) => String(value).padStart(2, "0");
 
-export function CollectionSummary({ unique, capacity, ownedTotal, rank, onRanking }: Props) {
+export function CollectionSummary({ unique, capacity, ownedTotal, rank, onRanking, onCollection }: Props) {
   const home = rank !== undefined;
+  const Metric = home ? "button" : "div";
   return (
     <div className={`${s.panel} ${home ? s.home : s.collection}`}>
       <SeasonalHolly />
-      <div className={s.metric}>
+      <Metric className={`${s.metric} ${home ? s.collectionLink : ""}`} onClick={home ? onCollection : undefined}>
         {home && <img src="./figma/decb2.svg" alt="" />}
         <div>
           <span>{home ? "Mi colección" : "Cartas distintas"}</span>
           <p><strong>{count(unique)}</strong> / {capacity}</p>
         </div>
-      </div>
+      </Metric>
       {home ? (
         <button className={s.ranking} onClick={onRanking}>
           <Trophy aria-hidden="true" />

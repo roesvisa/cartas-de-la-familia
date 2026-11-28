@@ -10,6 +10,7 @@ export function ProfileMenu({ user, triggerClassName, auth, onSignOut }: {
   user: User; triggerClassName: string; auth?: ProfileAuth; onSignOut: () => Promise<void>;
 }) {
   const [open, setOpen] = useState(false);
+  const [failedAvatar, setFailedAvatar] = useState<string>();
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -61,7 +62,9 @@ export function ProfileMenu({ user, triggerClassName, auth, onSignOut }: {
       aria-haspopup="menu" aria-expanded={open} aria-controls={open ? id : undefined}
       onClick={() => { setError(''); setOpen(!open); }}
       onKeyDown={e => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); setOpen(true); } }}>
-      <span className={s.initials} aria-hidden="true">{initials}</span>
+      {user.avatarUrl && failedAvatar !== user.avatarUrl
+        ? <img className={s.profilePhoto} src={user.avatarUrl} alt="" onError={() => setFailedAvatar(user.avatarUrl)} />
+        : <span className={s.initials} aria-hidden="true">{initials}</span>}
     </button>
     {open && createPortal(<div ref={menu} className={s.panel} style={position} onBlur={e => {
       if (e.relatedTarget && !e.currentTarget.contains(e.relatedTarget as Node) && e.relatedTarget !== trigger.current) setOpen(false);
